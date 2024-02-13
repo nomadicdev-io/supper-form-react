@@ -6,3 +6,43 @@ export const NEPInput = ({title, type, controller, cssClass, error})=> {
     </div>
   )
 }
+
+export const NEPTextarea = ({title, type, controller, cssClass, error})=> {
+  return (
+    <>
+
+    </>
+  )
+}
+
+export const NEPRadio = ({title, type, controller, cssClass, data, error})=> {
+  return (
+    <>
+
+    </>
+  )
+}
+
+export const NEPCheckbox = ({children, cssClass, controller, error})=> {
+  return (
+    <>
+      
+    </>
+  )
+}
+
+export const NEPSelect = ({title, controller, cssClass, data, placeholder, isSearchable, error})=> {
+  return (
+    <>
+      
+    </>
+  )
+}
+
+export const NEPDatepicker = ({title, controller, cssClass, customHeader, years, error})=> {
+  return (
+    <>
+      
+    </>
+  )
+}
