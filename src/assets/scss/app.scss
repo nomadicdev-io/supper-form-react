@@ -1,0 +1,63 @@
+:root {
+    --nep-primary-color: #ff8136;
+    --nep-secondary-color: #c85818;
+    --nep-text-color: #101820;
+    --nep-bg-color: #FFF;
+    --nep-white-color: #FFF;
+}
+
+.nep_skeleton_loader{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 2rem;
+
+    &_item{
+        position: relative;
+        display: block;
+        width: 100%;
+        height: auto;
+        grid-column: 1/-1;
+
+        &:nth-child(2), &:nth-child(3){
+            grid-column: span 1;
+        }
+
+        &:before, &:after{
+            content: '';
+            position: relative;
+            background: linear-gradient(-45deg, #efefef, #eaeaea, #ededed);
+            background-size: 400% 400%;
+            animation: skeletonAnim 1s linear infinite alternate;
+            display: block;
+            
+        }
+
+        &:before{
+            width: 50%;
+            height: 2.25rem;
+            border-radius: 0.75rem;
+        }
+
+        &:after{
+            width: 100%;
+            margin-top: 1rem;
+            border-radius: 1rem;
+            height: 4rem;
+        }
+    }
+}
+@keyframes skeletonAnim {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@import './form';
+@import './stepper';

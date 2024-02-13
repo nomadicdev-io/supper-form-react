@@ -1,0 +1,143 @@
+.nep_stepper_tab{
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    gap: 1rem;
+
+    &_content{
+        position: relative;
+        display: block;
+        flex: 1;
+
+        ul{
+            position: relative;
+            display: flex;
+            align-items: center;
+            flex: 1;
+            gap: 1rem;
+
+            li{
+                position: relative;
+                display: block;
+                flex: 1;
+            }
+        }
+    }
+
+    &_btn{
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        background: none;
+        border: none;
+        outline: none;
+        transition: all 0.3s ease;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 500;
+        height: calc(5rem/2);
+        cursor: pointer;
+        opacity: 0.35;
+        padding-top: 0.25em;
+
+        &:hover, &.active_{
+            opacity: 1;
+        }
+    }
+
+    &_progress{
+        position: relative;
+        display: block;
+
+        &_holder{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+
+            &:before{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--nep-primary-color);
+                opacity: 0.1;
+                border-radius: 50%;
+                transform: scale(0.8);
+            }
+
+            svg{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
+                fill: none;
+                 stroke: #eeefefe8;
+                 stroke-width: 3px;
+
+                 g{
+                    transform-box: fill-box;
+                    transform-origin: center;
+                    transform: scale(0.98);
+                 }
+
+                 .c_prograss{
+                    stroke: var(--nep-primary-color);
+                    transition: all 0.5s ease;
+                 }
+            }
+
+            span{
+                position: relative;
+                display: inline-block;
+                font-size: 1.15rem;
+                font-weight: 600;
+                color: var(--nep-primary-color);
+                line-height: 1;
+                top: 0.1em;
+            }
+        }
+    }
+
+    &_progressbar{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        transform: translateY(50%);
+        overflow: hidden;
+
+        &:before{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #eeefef;
+        }
+
+        span{
+            position: absolute;
+            display: inline-block;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: var(--nep-primary-color);
+            transition: all 0.5s ease;
+        }
+
+    }
+}
