@@ -171,6 +171,16 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
     }
+
+    &_actionbar{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-block: 1.75rem;
+        margin-top: 4rem;
+        border-top: 1px solid var(--nep-border-color);
+    }
     
 }
 

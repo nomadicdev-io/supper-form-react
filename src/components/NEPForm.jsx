@@ -1,3 +1,4 @@
+import NEPFormAction from "./NEPFormAction"
 import { NEPInput } from "./forms/NEPFormComponets"
 
 const NEPForm = () => {
@@ -10,6 +11,7 @@ const NEPForm = () => {
                 <NEPInput />
                 <NEPInput />
             </div>
+            <NEPFormAction />
         </form>
     </div>
   )

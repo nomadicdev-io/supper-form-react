@@ -1,12 +1,56 @@
 .nep{
     &_btn{
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        background-color: var(--nep-primary-color);
+        border: none;
+        outline: none;
+        transition: all 0.3s ease;
+        color: var(--nep-white-color);
+        padding: 0 1.5em;
+        text-transform: uppercase;
+        font-weight: 500;
+        height: 2.25rem;
+        border-radius: 0.35em;
+        cursor: pointer;
+
+        span{
+            position: relative;
+            display: inline-block;
+        }
+
+        i{
+            display: inline-flex;
+            font-size: 1.1em;
+        }
 
         &.secondary_{
+            background-color: var(--nep-third-color);
+            color: var(--nep-text-color);
 
+            &:hover{
+                background-color: var(--nep-text-color);
+                color: var(--nep-white-color);
+            }
         }
-        
-        &.outline_{
 
+        &.outline_{
+            background-color: transparent;
+            color: var(--nep-text-color);
+            box-shadow: inset 0px 0px 0px 1px var(--nep-text-color);
+
+            &:hover{
+                background-color: var(--nep-text-color);
+                color: var(--nep-third-color);
+            }
+        }
+
+        &:hover{
+            background-color: var(--nep-secondary-color);
         }
 
     }
