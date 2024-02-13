@@ -1,9 +1,9 @@
 import { atom, useAtom } from 'jotai'
 import './assets/scss/app.scss'
 import { formData } from './store'
-import NEPStepperForm from './components/NEPStepperForm'
 import { useEffect, useState } from 'react'
 import NEPSkeletonLoader from './components/NEPSkeletonLoader'
+import NEPStepperArea from './components/NEPStepperArea'
 
 const formContext = atom(null)
 
@@ -11,7 +11,7 @@ function App() {
 
   const [skeletonLoader, setSkeletonLoader] = useState(true) 
   const [data, setData] = useAtom(formContext)
-  const lang = document.documentElement.lang
+  const lang = document.documentElement.lang == 'ar' ? 'ar' : 'en'
 
   const formDataFn = async ()=> {
     try {
@@ -39,7 +39,7 @@ function App() {
       <div className='container_'>
         <h2 className='page_title'>Apply Now</h2>
         {
-          skeletonLoader ? <NEPSkeletonLoader /> : <NEPStepperForm data={data}/>
+          skeletonLoader ? <NEPSkeletonLoader /> : <NEPStepperArea data={data}/>
         }
        </div>
     </>

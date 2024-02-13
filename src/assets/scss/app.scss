@@ -1,9 +1,14 @@
 :root {
     --nep-primary-color: #ff8136;
     --nep-secondary-color: #c85818;
+    --nep-third-color: #ececec;
     --nep-text-color: #101820;
     --nep-bg-color: #FFF;
     --nep-white-color: #FFF;
+    --nep-border-color: #e1e1e1;
+    --nep-border-color-600: #8f8f8f;
+    --nep-red-color: #E71D36;
+    --nep-green-color: #1cbd57;
 }
 
 .nep_skeleton_loader{
@@ -61,3 +66,5 @@
 
 @import './form';
 @import './stepper';
+@import './buttons';
+

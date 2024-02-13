@@ -1,0 +1,30 @@
+.nep{
+    &_btn{
+
+        &.secondary_{
+
+        }
+        
+        &.outline_{
+
+        }
+
+    }
+
+    &_btn_group{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+
+        &.start_{
+            justify-content: flex-start;
+        }
+
+        &.end_{
+            justify-content: flex-end;
+        }
+    }
+}

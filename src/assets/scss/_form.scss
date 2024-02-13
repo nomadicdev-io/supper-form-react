@@ -1,0 +1,101 @@
+.nep_form{
+    &_inputfield{
+        position: relative;
+        display: block;
+        width: 100%;
+
+        &.full_{
+            grid-column: 1/-2;
+        }
+
+        &>label{
+            position: relative;
+            display: block;
+            margin: 0 0 0.35em;
+            font-size: 1rem;
+            padding-inline: 0.5rem;
+
+            em{
+                color: var(--nep-red-color);
+            }
+        }
+
+        input:not([type]),
+        input[type='text']:not(.browser-default),
+        input[type='password']:not(.browser-default),
+        input[type='email']:not(.browser-default),
+        input[type='url']:not(.browser-default),
+        input[type='time']:not(.browser-default),
+        input[type='date']:not(.browser-default),
+        input[type='datetime']:not(.browser-default),
+        input[type='datetime-local']:not(.browser-default),
+        input[type='tel']:not(.browser-default),
+        input[type='number']:not(.browser-default),
+        input[type='search']:not(.browser-default),
+        textarea{
+            position: relative;
+            display: block;
+            box-sizing: border-box;
+            width: 100%;
+            border: none;
+            outline: none;
+            background-color: var(--nep-bg-color);
+            padding: 0;
+            margin: 0;
+            height: 3rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            padding-inline: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0px 0px 0px 1px var(--nep-border-color);
+
+            &:focus{
+                box-shadow: 0px 0px 1px 1px var(--nep-border-color-600);
+            }
+
+        }
+
+        textarea{
+            height: auto;
+            min-height: 6rem;
+            padding-block: 1rem;
+        }
+
+        &.error_{
+            input:not([type]),
+            input[type='text']:not(.browser-default),
+            input[type='password']:not(.browser-default),
+            input[type='email']:not(.browser-default),
+            input[type='url']:not(.browser-default),
+            input[type='time']:not(.browser-default),
+            input[type='date']:not(.browser-default),
+            input[type='datetime']:not(.browser-default),
+            input[type='datetime-local']:not(.browser-default),
+            input[type='tel']:not(.browser-default),
+            input[type='number']:not(.browser-default),
+            input[type='search']:not(.browser-default),
+            textarea{
+                box-shadow: 0px 0px 1px 1px var(--nep-red-color);
+            }
+    
+            .radio_ {
+                span{
+                    box-shadow: 0px 0px 1px 1px var(--nep-red-color);
+                }
+            }
+    
+            .r_select {
+                .r_select_pre__control{
+                    box-shadow: 0px 0px 1px 1px var(--rnep-ed-color);
+                }
+            }
+    
+            .r_checkbox {
+                &> span{
+                    box-shadow: 0px 0px 1px 1px var(--nep-red-color);
+                }
+            }
+        }
+    }
+}
