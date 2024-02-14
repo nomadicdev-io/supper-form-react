@@ -88,6 +88,8 @@
                     fill: none;
                      stroke: #eeefefe8;
                      stroke-width: 3px;
+                     transform-origin: center;
+                     transform: rotate(270deg);
     
                      g{
                         transform-box: fill-box;
