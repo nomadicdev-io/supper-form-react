@@ -12,10 +12,12 @@ export const formData = [{
                     en: 'First name'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'input',
+                    inputType: 'text',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -26,10 +28,12 @@ export const formData = [{
                     en: 'Last name'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'input',
+                    inputType: 'text',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -40,10 +44,13 @@ export const formData = [{
                     en: 'Date of birth'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'datepicker',
+                    inputType: 'datepicker',
+                    range: [1980, 2008],
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -53,20 +60,23 @@ export const formData = [{
                     ar: 'جنس',
                     en: 'Gender'
                 },
-                value: [{
-                        ar: 'ذكر',
-                        en: 'Male',
-                    },
-                    {
-                        ar: 'أنثى',
-                        en: 'Female',
-                    }
-                ],
+                value: {
+                    ar: [
+                        {name: 'ذكر', value: 'ذكر'},
+                        {name: 'أنثى', value: 'أنثى'},
+                    ],
+                    en: [
+                        {name: 'Male', value: 'male'},
+                        {name: 'Female', value: 'female'},
+                    ]
+                },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'radio',
+                    inputType: 'radio',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -77,10 +87,12 @@ export const formData = [{
                     en: 'Email address'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'input',
+                    inputType: 'email',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -91,10 +103,12 @@ export const formData = [{
                     en: 'Telephone number'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'input',
+                    inputType: 'number',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -105,10 +119,18 @@ export const formData = [{
                     en: 'Country of residence'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'select',
+                    inputType: 'select',
+                    options: [
+                        {label: 'Select Option 1', value: 'Select Option 1'},
+                        {label: 'Select Option 2', value: 'Select Option 2'}, 
+                        {label: 'Select Option 3', value: 'Select Option 3'}, 
+                        {label: 'Select Option 4', value: 'Select Option 4'}
+                    ],
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: 'Choose country'
                 },
             },
             {
@@ -119,10 +141,18 @@ export const formData = [{
                     en: 'Emirate of residence'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'select',
+                    inputType: 'select',
+                    options: [
+                        {label: 'Select Option 1', value: 'Select Option 1'},
+                        {label: 'Select Option 2', value: 'Select Option 2'}, 
+                        {label: 'Select Option 3', value: 'Select Option 3'}, 
+                        {label: 'Select Option 4', value: 'Select Option 4'}
+                    ],
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: 'Choose Emirates'
                 },
             },
             {
@@ -132,11 +162,25 @@ export const formData = [{
                     ar: 'إذا كنت تعيش حاليًا خارج دولة الإمارات العربية المتحدة، فهل أنت على استعداد للانتقال للمشاركة في البرنامج؟',
                     en: 'If you currently live outside of the UAE, are you willing to relocate to participate in the program?'
                 },
+                value: {
+                    ar: [
+                        {name: 'نعم', value: 'نعم'},
+                        {name: 'لا', value: 'لا'},
+                        {name: 'أنا أعيش في الإمارات العربية المتحدة', value: 'أنا أعيش في الإمارات العربية المتحدة'}
+                    ],
+                    en: [
+                        {name: 'Yes', value: 'yes'},
+                        {name: 'No', value: 'no'},
+                        {name: 'I live in UAE', value: 'i_live_in_uae'}
+                    ]
+                },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'radio',
+                    inputType: 'radio',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -147,10 +191,12 @@ export const formData = [{
                     en: 'Years of work experience'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'input',
+                    inputType: 'number',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -161,10 +207,18 @@ export const formData = [{
                     en: 'Current employment status'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'select',
+                    inputType: 'select',
+                    options: [
+                        {label: 'Select Option 1', value: 'Select Option 1'},
+                        {label: 'Select Option 2', value: 'Select Option 2'}, 
+                        {label: 'Select Option 3', value: 'Select Option 3'}, 
+                        {label: 'Select Option 4', value: 'Select Option 4'}
+                    ],
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -175,10 +229,12 @@ export const formData = [{
                     en: 'Please upload a recent photo of yourself'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'upload',
+                    inputType: 'upload',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -189,10 +245,12 @@ export const formData = [{
                     en: 'Please upload your CV'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'upload',
+                    inputType: 'upload',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -203,10 +261,12 @@ export const formData = [{
                     en: 'Degree earned and year '
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'input',
+                    inputType: 'number',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -217,10 +277,12 @@ export const formData = [{
                     en: 'Field of study'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'input',
+                    inputType: 'text',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -231,10 +293,12 @@ export const formData = [{
                     en: 'Issuing school/university'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'input',
+                    inputType: 'text',
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
             {
@@ -245,10 +309,18 @@ export const formData = [{
                     en: 'Country of school/ university'
                 },
                 field: {
-                    type: '',
-                    inputType: '',
+                    type: 'select',
+                    inputType: 'select',
+                    options: [
+                        {label: 'Select Option 1', value: 'Select Option 1'},
+                        {label: 'Select Option 2', value: 'Select Option 2'}, 
+                        {label: 'Select Option 3', value: 'Select Option 3'}, 
+                        {label: 'Select Option 4', value: 'Select Option 4'}
+                    ],
                     require: true,
-                    errorMessage: '',
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
                 },
             },
         ]
@@ -258,7 +330,26 @@ export const formData = [{
         title: {
             ar: 'الخبرة العملية',
             en: 'Professional Experience',
-        }
+        },
+        formFields: [
+            {
+
+                id: 'first_name',
+                key: 'first_name',
+                label: {
+                    ar: 'الاسم الأول',
+                    en: 'First name'
+                },
+                field: {
+                    type: 'input',
+                    inputType: 'text',
+                    require: true,
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
+                },
+            }
+        ]
     },
     {
         key: 'motivation',

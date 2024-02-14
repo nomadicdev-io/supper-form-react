@@ -18,7 +18,7 @@ function App() {
       const stepperTab = await formData.map(item=> {return {key: item.key, title: item.title[lang]}})
       const dataModeling = await {
         lang: lang,
-        forms: formContext,
+        forms: formData,
         stepperTab,
         stepperCount: stepperTab.length
       }
