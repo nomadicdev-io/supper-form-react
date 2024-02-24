@@ -348,6 +348,23 @@ export const formData = [{
                     validationPattern: '',
                     placeholderText: ''
                 },
+            },
+            {
+
+                id: 'first_name',
+                key: 'first_name',
+                label: {
+                    ar: 'الاسم الأول',
+                    en: 'First name'
+                },
+                field: {
+                    type: 'input',
+                    inputType: 'text',
+                    require: true,
+                    errorMessage: 'Error Message',
+                    validationPattern: '',
+                    placeholderText: ''
+                },
             }
         ]
     },

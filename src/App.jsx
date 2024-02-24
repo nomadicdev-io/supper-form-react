@@ -1,48 +1,43 @@
-import { atom, useAtom } from 'jotai'
+import { Route, Routes } from "react-router-dom"
 import './assets/scss/app.scss'
-import { formData } from './store'
-import { useEffect, useState } from 'react'
-import NEPSkeletonLoader from './components/NEPSkeletonLoader'
-import NEPStepperArea from './components/NEPStepperArea'
+import Dashboard from "./routes/Dashboard"
+import Interview from "./routes/Interview"
+import Application from "./routes/Application"
+import Assessment from "./routes/Assessment"
+import Settings from "./routes/Settings"
+import NEPDashboardSidebar from "./components/NEPDashboardSidebar"
+import NEPDashboardContainer from "./components/NEPDashboardContainer"
+import NEPDashboardHeader from "./components/NEPDashboardHeader"
+import NEPFooter from "./components/NEPFooter"
+import { atom } from "jotai"
 
-const formContext = atom(null)
+export const breadcrumbData = atom([])
 
 function App() {
 
-  const [skeletonLoader, setSkeletonLoader] = useState(true) 
-  const [data, setData] = useAtom(formContext)
-  const lang = document.documentElement.lang == 'ar' ? 'ar' : 'en'
-
-  const formDataFn = async ()=> {
-    try {
-      const stepperTab = await formData.map(item=> {return {key: item.key, title: item.title[lang]}})
-      const dataModeling = await {
-        lang: lang,
-        forms: formData,
-        stepperTab,
-        stepperCount: stepperTab.length
-      }
-      console.log(dataModeling)
-      setData(dataModeling)
-      setSkeletonLoader(false)
-    }catch(error){
-      console.log(error)
-    }
-  }
-
-  useEffect(()=> {
-    formDataFn();
-  }, [])
-
   return (
-    <>
-      <div className='container_'>
-        <h2 className='page_title'>Apply Now</h2>
-        {
-          skeletonLoader ? <NEPSkeletonLoader /> : <NEPStepperArea data={data}/>
-        }
-       </div>
-    </>
+    <main className="nep_dashboard">
+      <NEPDashboardSidebar />
+
+      <NEPDashboardContainer>
+            <NEPDashboardHeader />
+
+            <div className="nep_dashboard_contentbody">
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/application" element={<Application />} />
+                <Route path="/interview" element={<Interview />} />
+                <Route path="/assessment" element={<Assessment />} />
+                <Route path="/settings" element={<Settings />} />
+              </Routes>
+            </div>
+
+        </NEPDashboardContainer>
+
+        <NEPFooter />
+
+      
+    </main>
   )
 }
 
