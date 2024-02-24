@@ -13,12 +13,11 @@ const Settings = () => {
 
   return (
     <>
-      <NEPDashboardTitle 
-        welcomeMessage={true}
-      >
+      <NEPDashboardTitle welcomeMessage={true}>
         <h2><span>User</span> Settings</h2>
-        
       </NEPDashboardTitle>
+
+     
 
     </>
   )

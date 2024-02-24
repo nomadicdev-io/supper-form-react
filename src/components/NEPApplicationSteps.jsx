@@ -1,6 +1,6 @@
 import NEPProgressWidget from "./Application/NEPProgressWidget"
 
-const NEPApplicationSteps = () => {
+const NEPApplicationSteps = ({activeIndex, progress}) => {
     const steps = [
         'Personal Information',
         'Professional Experience',
@@ -12,12 +12,12 @@ const NEPApplicationSteps = () => {
         <ul>
             {
                 steps.map((item, index)=> (
-                    <li key={'steps' + index} className={index == 0 ? 'active_' : ''}><span>{'0'+(index + 1)}</span><p>{item}</p></li>
+                    <li key={'steps' + index} className={index <= activeIndex ? 'active_' : ''}><span>{'0'+(index + 1)}</span><p>{item}</p></li>
                 ))
             }
         </ul>
 
-        <NEPProgressWidget />
+        <NEPProgressWidget progress={progress}/>
     </div>
   )
 }

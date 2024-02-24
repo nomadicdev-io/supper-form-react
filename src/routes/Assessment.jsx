@@ -13,11 +13,8 @@ const Assessment = () => {
 
   return (
     <>
-      <NEPDashboardTitle 
-        welcomeMessage={true}
-      >
+      <NEPDashboardTitle welcomeMessage={true}>
         <h2>Personality <span>Assessment</span></h2>
-        
       </NEPDashboardTitle>
 
     </>

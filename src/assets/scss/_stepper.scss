@@ -171,7 +171,11 @@
         position: relative;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
+        gap: 2.25rem;
+
+        .full_{
+            grid-column: 1/-1;
+        }
     }
 
     &_actionbar{

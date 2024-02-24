@@ -13,8 +13,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <NEPDashboardTitle 
-        welcomeMessage={true}>
+      <NEPDashboardTitle welcomeMessage={true}>
           <h2><span>NEP 4.0</span> Dashboard</h2>
         </NEPDashboardTitle>
     </>

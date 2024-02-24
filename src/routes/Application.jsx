@@ -16,22 +16,20 @@ const Application = () => {
 
   return (
     <>
-      <NEPDashboardTitle 
-        welcomeMessage={true}
-      >
+      <NEPDashboardTitle welcomeMessage={true}>
         <h2>Your <span>NEP 4.0</span> Application</h2>
-        
       </NEPDashboardTitle>
-      <NEPApplicationSteps />
 
-      <div className="nep_application_grid">
+      <NEPApplicationSteps progress={15} activeIndex={0}/>
+
+      <div className="nep_application_grid"> 
+        
+          <NEPApplicationFormWrapper />
+
           <div className="nep_application_interactive">
-
             <NEPApplicationVideo />
-            
           </div>
 
-          <NEPApplicationFormWrapper />
       </div>
     </>
   )

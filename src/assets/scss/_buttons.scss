@@ -44,15 +44,22 @@
         }
 
         &.secondary_{
-            background-color: var(--nep-third-color);
+            background-color: var(--nep-border-color-100);
             color: var(--nep-text-color);
+
+            i{
+                background-color: #cccccc;
+                
+            }
 
             &:hover{
                 background-color: var(--nep-text-color);
                 box-shadow: 0px 0px 0px 2px var(--nep-border-color-600);
                 color: var(--nep-white-color);
 
-                
+                i{
+                    color: var(--nep-text-color);
+                }
             }
         }
 
@@ -61,7 +68,7 @@
 
             &:hover{
                 background-color: var(--nep-green-color);
-                box-shadow: 0px 0px 0px 2px var(--nep-green-color);                
+                box-shadow: 0px 0px 0px 2px var(--nep-green-color-600);                
             }
         }
 

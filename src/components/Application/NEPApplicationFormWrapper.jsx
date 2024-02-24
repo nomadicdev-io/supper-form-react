@@ -3,6 +3,23 @@ import NEPFormAction from "../NEPFormAction"
 import PersonalForm from "./Forms/PersonalForm"
 
 const NEPApplicationFormWrapper = () => {
+
+   const nextFn = ()=> {
+    console.log('Next Clicked')
+   }
+
+   const backFn = ()=> {
+    console.log('Back Clicked')
+   }
+
+   const draftFn = ()=> {
+    console.log('Draft Clicked')
+   }
+
+   const finishFn = ()=> {
+    console.log('Finsih Clicked')
+   }
+
   return (
     <div className="nep_application_formwrapper">
 
@@ -38,7 +55,12 @@ const NEPApplicationFormWrapper = () => {
             description={'Encourage detailed responses about personal experiences, opinions, or preferences for better understanding and insights.'}
         /> */}
 
-        <NEPFormAction />
+        <NEPFormAction 
+            onNext={()=> nextFn()}
+            onBack={()=> backFn()}
+            onDraft={()=> draftFn()}
+            onFinish={()=> finishFn()}
+        />
 
     </div>
   )
