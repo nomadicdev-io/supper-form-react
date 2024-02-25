@@ -1,17 +1,31 @@
 import NEPApplicationSteps from "../components/NEPApplicationSteps"
 import NEPDashboardTitle from "../components/NEPDashboardTitle"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSetAtom } from "jotai"
 import { breadcrumbData } from "../App"
 import NEPApplicationVideo from "../components/Application/NEPApplicationVideo"
 import NEPApplicationFormWrapper from "../components/Application/NEPApplicationFormWrapper"
+import StartForm from "../components/Application/Forms/StartForm"
 
 const Application = () => {
 
   const setBreadcrumb = useSetAtom(breadcrumbData)
+  const [isFormStarted, setIsFormStarted] = useState(false)
+  const LS = window.localStorage
+
+  const startApplication = async ()=> {
+    try{
+      await LS.setItem('aplication_started', true)
+      setIsFormStarted(true)
+    }catch(error){
+      console.log(error)
+    }
+  }
 
   useEffect(()=> {
     setBreadcrumb([{title: 'Applicaiton', route: '/application'}])
+
+    LS.getItem('aplication_started') == 'true' ? setIsFormStarted(true) : LS.setItem('aplication_started', false)
   }, [])
 
   return (
@@ -20,17 +34,24 @@ const Application = () => {
         <h2>Your <span>NEP 4.0</span> Application</h2>
       </NEPDashboardTitle>
 
-      <NEPApplicationSteps progress={15} activeIndex={0}/>
+      <NEPApplicationSteps progress={0}/>
 
-      <div className="nep_application_grid"> 
+      {
+        isFormStarted ?
+        <div className="nep_application_grid"> 
         
-          <NEPApplicationFormWrapper />
+            <NEPApplicationFormWrapper />
 
-          <div className="nep_application_interactive">
-            <NEPApplicationVideo />
-          </div>
+            <div className="nep_application_interactive">
+              <NEPApplicationVideo />
+            </div>
 
-      </div>
+        </div>
+        :
+        <StartForm onStart={startApplication}/>
+      }
+
+      
     </>
   )
 }

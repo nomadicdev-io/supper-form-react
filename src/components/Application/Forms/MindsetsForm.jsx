@@ -2,9 +2,12 @@ import { useEffect, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { NEPTextarea } from "../../forms/NEPFormComponets";
 import NEPFormSectionDescription from "../../forms/NEPFormSectionDescription";
+import { useAtom } from "jotai";
+import { applicationFormContext } from "../../../App";
 
 const MindsetsForm = () => {
     
+    const [formContext, setFormContext] = useAtom(applicationFormContext)
     const { reset, control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {}
     });
@@ -16,6 +19,13 @@ const MindsetsForm = () => {
             console.log(error)
         }
     }
+
+    useEffect(()=> {
+        setFormContext({
+            ...formContext,
+            tabIndex: 2
+        })
+    }, [])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="nep_stepper_grid">

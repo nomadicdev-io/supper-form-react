@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { NEPDatepicker, NEPInput, NEPRadio, NEPSelect } from "../../forms/NEPFormComponets";
+import { useAtom } from "jotai";
+import { applicationFormContext } from "../../../App";
 
 const PersonalForm = () => {
 
+    const [formContext, setFormContext] = useAtom(applicationFormContext)
     const { reset, control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {}
     });
@@ -22,6 +25,13 @@ const PersonalForm = () => {
             console.log(error)
         }
     }
+
+    useEffect(()=> {
+        setFormContext({
+            ...formContext,
+            tabIndex: 0
+        })
+    }, [])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="nep_stepper_grid">

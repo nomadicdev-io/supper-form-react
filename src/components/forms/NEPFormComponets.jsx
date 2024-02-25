@@ -260,7 +260,7 @@ export const NEPDatepicker = ({title, controller, cssClass, customHeader, years,
 
     const datePickerHeader = ({ date,changeYear,changeMonth,decreaseMonth,increaseMonth,prevMonthButtonDisabled,nextMonthButtonDisabled,}) => (
         <div className="custom_datepicker_header">
-          <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+          <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} type='button'>
             {"<"}
           </button>
           <select value={getYear(date)} onChange={({ target: { value } }) => changeYear(value)}>
@@ -282,7 +282,7 @@ export const NEPDatepicker = ({title, controller, cssClass, customHeader, years,
             ))}
           </select>
 
-          <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+          <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} type='button'>
             {">"}
           </button>
         </div>

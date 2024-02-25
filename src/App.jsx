@@ -9,7 +9,14 @@ import NEPDashboardSidebar from "./components/NEPDashboardSidebar"
 import NEPDashboardContainer from "./components/NEPDashboardContainer"
 import NEPDashboardHeader from "./components/NEPDashboardHeader"
 import NEPFooter from "./components/NEPFooter"
-import { atom } from "jotai"
+import { atom } from 'jotai';
+
+export const applicationFormContext = atom({
+    activeIndex: null,
+    formCount: 6, 
+    tabIndex: null,
+    activeVideoURL: '',
+})
 
 export const breadcrumbData = atom([])
 

@@ -84,7 +84,7 @@
         border-top: 1px solid var(--nep-border-color-100);
         padding-block: 1rem;
         padding-inline: 0.5rem;
-
+        background-color: var(--nep-dashboard-bg-color);
         p{
             position: relative;
             display: block;
@@ -399,8 +399,8 @@
             position: relative;
             display: block;
             width: 100%;
-            padding-top: 2rem;
-            padding-bottom: 5rem;
+            padding-top: 1.5rem;
+            padding-bottom: 3.5rem;
             min-height: 85vh;
         }
 
@@ -812,8 +812,8 @@
                         justify-content: center;
                         border: 2px solid var(--nep-text-color);
                         transition: all 0.3s ease;
-                        width: 1.8rem;
-                        height: 1.8rem;
+                        width: 2rem;
+                        height: 2rem;
                         font-size: 0.75rem;
                         font-weight: 700;
                         border-radius: 50%;
@@ -1011,6 +1011,43 @@
 
             .nep_stepper_grid{
                 padding: 0;
+            }
+        }
+
+        &_start{
+            position: relative;
+            display: block;
+            text-align: center;
+            padding-inline: 10%;
+            padding-block: 1rem;
+
+            .icon_{
+                position: relative;
+                display: inline-block;
+                
+                svg{
+                    position: relative;
+                    display: inline-block;
+                    width: auto;
+                    height: 8rem;
+                    margin-bottom: 1.5rem;
+                }
+            }
+
+            h3{
+                position: relative;
+                display: block;
+                margin: 0;
+                font-weight: 700;
+                font-size: 1.8rem;
+                margin-bottom: 1em;
+                span{
+                    color: var(--nep-primary-color);
+                }
+            }
+
+            p{
+                font-size: 1.2rem;
             }
         }
        

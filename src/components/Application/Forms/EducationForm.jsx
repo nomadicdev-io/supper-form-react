@@ -3,9 +3,12 @@ import { useForm, Controller } from "react-hook-form"
 import { NEPInput, NEPSelect, NEPUpload } from "../../forms/NEPFormComponets";
 import { FaPlus } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
+import { useAtom } from "jotai";
+import { applicationFormContext } from "../../../App";
 
 const EducationForm = () => {
 
+    const [formContext, setFormContext] = useAtom(applicationFormContext)
     const { reset, control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {}
     });
@@ -34,6 +37,13 @@ const EducationForm = () => {
             console.log(error)
         }
     }
+
+    useEffect(()=> {
+        setFormContext({
+            ...formContext,
+            tabIndex: 1
+        })
+    }, [])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="nep_stepper_grid">

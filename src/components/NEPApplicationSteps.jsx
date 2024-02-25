@@ -1,6 +1,11 @@
+import { useAtomValue } from "jotai"
 import NEPProgressWidget from "./Application/NEPProgressWidget"
+import { applicationFormContext } from "../App"
 
-const NEPApplicationSteps = ({activeIndex, progress}) => {
+const NEPApplicationSteps = ({progress}) => {
+
+    const formContext = useAtomValue(applicationFormContext)
+
     const steps = [
         'Personal Information',
         'Professional Experience',
@@ -12,12 +17,12 @@ const NEPApplicationSteps = ({activeIndex, progress}) => {
         <ul>
             {
                 steps.map((item, index)=> (
-                    <li key={'steps' + index} className={index <= activeIndex ? 'active_' : ''}><span>{'0'+(index + 1)}</span><p>{item}</p></li>
+                    <li key={'steps' + index} className={index <= formContext.tabIndex ? 'active_' : ''}><span>{'0'+(index + 1)}</span><p>{item}</p></li>
                 ))
             }
         </ul>
 
-        <NEPProgressWidget progress={progress}/>
+        <NEPProgressWidget progress={formContext.activeIndex}/>
     </div>
   )
 }
