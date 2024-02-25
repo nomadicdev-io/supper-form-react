@@ -1,20 +1,21 @@
 :root {
     --nep-primary-color: #fe6723;
-    --nep-secondary-color: #ff9161;
+    --nep-secondary-color: #fe8652;
     --nep-third-color: #ececec;
     --nep-text-color: #121212;
-    --nep-text-color-300: #141414;
+    --nep-text-color-300: #252525;
     --nep-bg-color: #FFF;
     --nep-white-color: #FFF;
     --nep-border-color: #e1e1e1;
     --nep-border-color-600: #8f8f8f;
+    --nep-border-color-500: #acacac;
     --nep-border-color-100: #e8e8e8;
     --nep-primary-border-color: #ffdac9;
-    --nep-red-color: #ff3d55;
-    --nep-green-color: #1cbd57;
-    --nep-green-color-100: #24ef6f;
+    --nep-red-color: #ff4639;
+    --nep-green-color: #15d060;
+    --nep-green-color-100: #10a94d;
 
-    --nep-dashboard-bg-color: #fafafa;
+    --nep-dashboard-bg-color: #f9fafb;
     --nep-primary-bg-color: #ffede6;
 }
 
@@ -383,7 +384,15 @@
             position: relative;
             display: block;
             flex: 1;
-            padding-inline: 3rem;
+            width: 100%;
+            min-width: 90%;
+            max-width: 90%;
+            margin-inline: auto;
+
+            @media only screen and (min-width: 1440px){
+                min-width: 1260px;
+                max-width: 1260px;
+            }
         }
 
         &_contentbody{
@@ -408,7 +417,7 @@
                 list-style: none;
                 overflow: hidden;
                 border-radius: 0.5rem;
-                background-color: #f3f3f3;
+                background-color: #f1f1f1;
 
                 li{
                     position: relative;
@@ -451,6 +460,7 @@
                         i{
                             display: flex;
                             font-size: 1.25em;
+                            color: var(--nep-primary-color);
                         }
 
                         
@@ -749,7 +759,7 @@
             position: relative;
             display: grid;
             grid-template-columns: 2.5fr 1fr;
-            gap: 1.75rem 3.5rem; 
+            gap: 1.75rem; 
         }
 
         &_steps{
@@ -758,7 +768,7 @@
             align-items: center;
             gap: 1.75rem;
             width: 100%;
-            margin-bottom: 3.5rem;
+            margin-bottom: 1.75rem;
 
             ul{
                 position: relative;
@@ -940,7 +950,10 @@
                 width: 100%;
                 margin-bottom: 2rem;
                 align-items: flex-start;
-                gap: 1.25rem;
+                gap: 1.5rem;
+                border-radius: 1.25rem;
+                padding: 1.5rem;
+                background: var(--nep-dashboard-bg-color);
 
                 .text_{
                     display: block;

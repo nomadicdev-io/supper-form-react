@@ -9,6 +9,7 @@ import { getMonth, getYear } from "date-fns";
 import { MdOutlinePermMedia } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 
+
 import { 
   TbFileTypePng, 
   TbFileTypeJpg, 
@@ -30,11 +31,12 @@ export const NEPInput = ({title, type, controller, cssClass, error, id})=> {
   )
 }
 
-export const NEPTextarea = ({title, type, controller, cssClass, error})=> {
+export const NEPTextarea = ({title, type, controller, cssClass, error, id})=> {
   return (
-    <>
-
-    </>
+    <div className={`nep_form_inputfield ${cssClass ? cssClass : ''} ${error ? 'error_' :  ''}`}>
+        <label htmlFor={id} >{title}<em>*</em></label>
+        <textarea type={type} {...controller} id={id}/>
+    </div>
   )
 }
 
@@ -59,11 +61,18 @@ export const NEPRadio = ({title, type, controller, cssClass, data, error})=> {
   )
 }
 
-export const NEPCheckbox = ({title, controller, cssClass, error, id})=> {
+export const NEPCheckbox = ({title, controller, cssClass, error, id, label})=> {
   return (
-    <>
-      
-    </>
+    <div className={`nep_form_inputfield ${cssClass ? cssClass : ''} ${error ? 'error_' :  ''}`}>
+      <label htmlFor={id} >{label}</label>
+      <div className='checkbox_'>
+        <input type={'checkbox'} {...controller} id={id}/>
+        <span>
+          <FaCheck />
+        </span>
+        <p>{title}</p>
+      </div>
+  </div>
   )
 }
 export const NEPUpload = ({title, controller, cssClass, error, id, infoText, fileTypes})=> {
@@ -74,12 +83,11 @@ export const NEPUpload = ({title, controller, cssClass, error, id, infoText, fil
 
   const deleteFile = (value)=> {
 
-      const updatedFiles = [...uploadArray];
-      updatedFiles.splice(value, 1)
+      let updatedFiles = [...uploadArray];
+      value > 0 ? updatedFiles.splice(value, 1) : updatedFiles = []
 
       setUploadArray(updatedFiles)
 
-      
   }
 
   const uploadFn = async (event)=> {
@@ -170,42 +178,44 @@ export const NEPUpload = ({title, controller, cssClass, error, id, infoText, fil
 
         {
           uploadArray.length > 0 &&
-          
-          uploadArray.map((item, index)=> (
-            <div className='file_uploaded_list' key={'upploadList' + (Math.random())}>
-              <div className='upload_item'>
-                <div className='icon_'>
 
-                    {
-                      item.extension == 'png' ?
-                      <TbFileTypePng /> :
-                      item.extension == 'jpg' || item.extension == 'jpeg' ?
-                      <TbFileTypeJpg /> :
-                      item.extension == 'svg' ?
-                      <TbFileTypeSvg /> :
-                      item.extension == 'pdf' ?
-                      <TbFileTypePdf /> :
-                      item.extension == 'doc' ?
-                      <TbFileTypeDoc /> :
-                      item.extension == 'docx' ?
-                      <TbFileTypeDocx /> :
-                      item.extension == 'txt' ?
-                      <TbFileTypeTxt /> :
-                      item.extension == 'zip' ?
-                      <TbFileTypeZip /> :
-                      <MdOutlinePermMedia />
-                    }
-                  
+          <div className='file_uploaded_list'>
+            {
+              uploadArray.map((item, index)=> (
+                <div className='upload_item' title={item.name} key={'upploadList' + (Math.random())}>
+                  <div className='icon_'>
+
+                      {
+                        item.extension == 'png' ?
+                        <TbFileTypePng /> :
+                        item.extension == 'jpg' || item.extension == 'jpeg' ?
+                        <TbFileTypeJpg /> :
+                        item.extension == 'svg' ?
+                        <TbFileTypeSvg /> :
+                        item.extension == 'pdf' ?
+                        <TbFileTypePdf /> :
+                        item.extension == 'doc' ?
+                        <TbFileTypeDoc /> :
+                        item.extension == 'docx' ?
+                        <TbFileTypeDocx /> :
+                        item.extension == 'txt' ?
+                        <TbFileTypeTxt /> :
+                        item.extension == 'zip' ?
+                        <TbFileTypeZip /> :
+                        <MdOutlinePermMedia />
+                      }
+                    
+                  </div>
+                  <div className='info_'>
+                    <div className='name_'>{item.name}</div>
+                    <div className='size_'>{item.size} MB</div>
+                  </div>
+                  <div className='progress_'>100%</div>
+                  <button className='close_' type='button' onClick={()=> deleteFile(index)}><IoMdClose /></button>
                 </div>
-                <div className='info_'>
-                  <div className='name_'>{item.name}</div>
-                  <div className='size_'>{item.size} MB</div>
-                </div>
-                <div className='progress_'>100%</div>
-                <button className='close_' type='button' onClick={()=> deleteFile(index)}><IoMdClose /></button>
-              </div>
-            </div>
-          ))
+              ))
+            }
+          </div>
         }
 
     </div>

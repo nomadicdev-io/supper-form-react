@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { NEPInput, NEPSelect, NEPUpload } from "../../forms/NEPFormComponets";
+import { FaPlus } from "react-icons/fa6";
+import { FaTrashAlt } from "react-icons/fa";
 
 const EducationForm = () => {
 
@@ -14,6 +16,16 @@ const EducationForm = () => {
         {label: 'Select Option 3', value: 'Select Option 3'}, 
         {label: 'Select Option 4', value: 'Select Option 4'}
     ]
+
+    const [educationArray, setEducationArray] = useState([])
+
+    const addEducation = ()=> {setEducationArray([...educationArray, 1])}
+
+    const removeEducation = (value)=> {
+        let newArray = [...educationArray];
+        value > 0 ? newArray.splice(value, 1) : newArray = []
+        setEducationArray(newArray)
+    }
 
     const onSubmit = async (values) => {
         try{
@@ -173,6 +185,105 @@ const EducationForm = () => {
 
             )}
         />
+
+        {
+            educationArray.length > 0 &&
+            educationArray.map((item, index)=> (
+                <div className="nep_subform_fields full_" key={'education_list' + index}>
+                    <div className="nep_stepper_grid">
+
+                        <div className="nep_form_title_wrapper">
+                            <h3 className="nep_form_subtitle">Education Information - <span>{index + 1 < 10 ? '0'+(index + 1): (index + 1)}</span></h3>
+                            <button className="nep_icon_btn red_ sm_" type="button" onClick={()=> removeEducation(index)} >
+                                <i><FaTrashAlt /></i>
+                            </button>
+                        </div>
+
+                        <Controller
+                            key={'extra_degree_earned_year'}
+                            name={'extra_degree_earned_year'}
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <NEPInput 
+                                    id={'extra_degree_earned_year'}
+                                    title={'Degree earned and year conferred'}
+                                    cssClass={'half_'}
+                                    type={'number'}
+                                    controller={{...field}}
+                                    error={errors.extra_degree_earned_year}
+                                />
+
+                            )}
+                        />
+
+                        <Controller
+                            key={'extra_field_of_study'}
+                            name={'extra_field_of_study'}
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <NEPInput 
+                                    id={'extra_field_of_study'}
+                                    title={'Field of study'}
+                                    cssClass={'half_'}
+                                    type={'text'}
+                                    controller={{...field}}
+                                    error={errors.extra_field_of_study}
+                                />
+
+                            )}
+                        />
+
+                        <Controller
+                            key={'extra_issuing_school_university'}
+                            name={'extra_issuing_school_university'}
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <NEPInput 
+                                    id={'extra_issuing_school_university'}
+                                    title={'Issuing school or university'}
+                                    cssClass={'half_'}
+                                    type={'text'}
+                                    controller={{...field}}
+                                    error={errors.extra_issuing_school_university}
+                                />
+
+                            )}
+                        />
+
+                        <Controller
+                            key={'extra_country_of_school_university'}
+                            name={'extra_country_of_school_university'}
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <NEPSelect 
+                                    id={'extra_country_of_school_university'}
+                                    title={'Country of school or university'}
+                                    cssClass={'half_'}
+                                    placeholder={'Choose Experience'}
+                                    controller={{...field}}
+                                    data={sampleOptions}
+                                    error={errors.extra_country_of_school_university}
+                                />
+
+                            )}
+                        />
+                        
+                    </div>
+                </div>
+            ))
+        }
+
+        <div className="nep_btn_group">
+            <button className="nep_btn dark_" type="button" onClick={addEducation}>
+                <span>Add More Education History</span>
+                <i><FaPlus /></i>
+            </button>
+        </div>
+
         
 
     </form>

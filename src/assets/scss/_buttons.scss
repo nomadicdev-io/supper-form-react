@@ -24,13 +24,13 @@
 
         i{
             display: inline-flex;
-            font-size: 1.25em;
+            font-size: 1.5em;
             align-items: center;
             justify-content: center;
             width: 3rem;
             height: 3rem;
             background: #ffffff47;
-            border-radius: 0.7em;
+            border-radius: 0.5em;
             transform: scale(0.75);
             transition: all 0.3s ease;
 
@@ -53,12 +53,32 @@
             }
 
             &:hover{
-                background-color: var(--nep-text-color);
+                background-color: var(--nep-primary-bg-color);
+                box-shadow: 0px 0px 0px 2px var(--nep-primary-border-color);
+                color: var(--nep-primary-color);
+                i{
+                    color: var(--nep-white-color);
+                    background-color: var(--nep-primary-color);
+                }
+            }
+        }
+
+        &.dark_{
+            background-color: var(--nep-text-color);
+            color: var(--nep-white-color);
+
+            i{
+                background-color: #ffffff32;
+                
+            }
+
+            &:hover{
+                background-color: var(--nep-text-color-300);
                 box-shadow: 0px 0px 0px 2px var(--nep-border-color-600);
                 color: var(--nep-white-color);
 
                 i{
-                    color: var(--nep-text-color);
+                    background-color: #ffffff54;
                 }
             }
         }
@@ -66,16 +86,20 @@
         &.success_{
             background-color: var(--nep-green-color);
 
+            i{
+                background: hsla(0, 0%, 100%, 0.23);
+            }
+
             &:hover{
-                background-color: var(--nep-green-color);
-                box-shadow: 0px 0px 0px 2px var(--nep-green-color-600);                
+                background-color: var(--nep-green-color-100);
+                box-shadow: 0px 0px 0px 2px var(--nep-green-color);                
             }
         }
 
         &.outline_{
             background-color: transparent;
             color: var(--nep-text-color);
-            box-shadow: inset 0px 0px 0px 1px var(--nep-text-color);
+            box-shadow: inset 0px 0px 0px 2px var(--nep-text-color);
 
             i{
                 background-color: #ececec;
@@ -99,12 +123,84 @@
 
     }
 
+    &_icon_btn{
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        outline: none;
+        transition: all 0.3s ease;
+        color: var(--nep-primary-color);
+        padding: 0;
+        font-weight: 600;
+        height: 3rem;
+        width: 3rem;
+        border-radius: 0.5em;
+        cursor: pointer;
+        overflow: hidden;
+        background: none;
+        font-size: 1.25rem;
+
+
+        &:before{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--nep-primary-color);
+            transition: all 0.3s ease;
+            opacity: 0.125;
+        }
+
+        i{
+            position: relative;
+            display: inline-flex;
+        }
+
+        &.sm_{
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1rem;
+        }
+
+        &.red_{
+            color: var(--nep-red-color);
+            &:before{
+                background-color: var(--nep-red-color);
+            }
+        }
+
+        &.success_{
+            color: var(--nep-green-color);
+            &:before{
+                background-color: var(--nep-green-color);
+            }
+        }
+
+        &.dark_{
+            color: var(--nep-text-color);
+            &:before{
+                background-color: var(--nep-text-color);
+            }
+        }
+
+        &:hover{
+            color: var(--nep-white-color);
+            &:before{
+                opacity: 1;
+            }
+        }
+    }
+
     &_btn_group{
         position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 0.65rem;
         flex-wrap: wrap;
 
         &.start_{
