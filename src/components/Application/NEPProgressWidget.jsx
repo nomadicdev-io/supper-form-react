@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { MdGraphicEq } from "react-icons/md";
 
 const NEPProgressWidget = ({progress}) => {
 
@@ -18,7 +19,7 @@ const NEPProgressWidget = ({progress}) => {
             <circle fill="none" stroke="#231F20" strokeWidth="4" strokeLinecap="round" strokeMiterlimit="10" cx="40.9" cy="40.9" r="38.4" className="progress_stroke" style={{strokeDashoffset: svgProgress+'px'}}/>
             </svg>
 
-            
+            <i><MdGraphicEq /></i>
         </div>
         <div className="title_">
             <h4>{progress}%</h4>

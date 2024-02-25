@@ -1,10 +1,25 @@
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { FaCheck } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
+import { RiUploadCloud2Line } from "react-icons/ri";
 import { LuCalendarDays } from "react-icons/lu";
 import "react-datepicker/dist/react-datepicker.css";
 import { getMonth, getYear } from "date-fns";
-import { useState } from 'react';
+import { MdOutlinePermMedia } from "react-icons/md";
+import { IoMdClose } from "react-icons/io";
+
+import { 
+  TbFileTypePng, 
+  TbFileTypeJpg, 
+  TbFileTypePdf, 
+  TbFileTypeSvg, 
+  TbFileTypeZip,  
+  TbFileTypeDoc,
+  TbFileTypeDocx,
+  TbFileTypeTxt
+} from "react-icons/tb";
+
 
 export const NEPInput = ({title, type, controller, cssClass, error, id})=> {
   return (
@@ -44,11 +59,156 @@ export const NEPRadio = ({title, type, controller, cssClass, data, error})=> {
   )
 }
 
-export const NEPCheckbox = ({children, cssClass, controller, error})=> {
+export const NEPCheckbox = ({title, controller, cssClass, error, id})=> {
   return (
     <>
       
     </>
+  )
+}
+export const NEPUpload = ({title, controller, cssClass, error, id, infoText, fileTypes})=> {
+
+  const [isDragged, setIsDragged] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [uploadArray, setUploadArray] = useState([])
+
+  const deleteFile = (value)=> {
+
+      const updatedFiles = [...uploadArray];
+      updatedFiles.splice(value, 1)
+
+      setUploadArray(updatedFiles)
+
+      
+  }
+
+  const uploadFn = async (event)=> {
+
+    try{  
+      
+      setIsDragged(false)
+      setIsLoading(true)
+
+      const uploadSchema = {}
+      const file = event.target.files[0];
+
+      if(!file) return
+
+      const fileTypeArray = fileTypes.split(',')
+      const fileExtension = file.type.split('/').slice(-1)[0]
+
+      if(!fileTypeArray.includes(`.${fileExtension}`)){
+        alert('Unsupported File Type!')
+        setIsLoading(false)
+        return
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);      
+
+      uploadSchema.name = file.name
+      uploadSchema.size = (file.size / 1048576).toFixed(2)
+      uploadSchema.type = file.type
+      uploadSchema.extension = fileExtension
+      uploadSchema.file = formData
+
+      setUploadArray([...uploadArray, uploadSchema])
+
+      setTimeout(()=> {
+        setIsLoading(false)
+      }, 300)
+
+    }catch(error){
+      console.log(error)
+    }
+
+    
+  }
+
+  return (
+    <div className={`nep_form_inputfield ${cssClass ? cssClass : ''} ${error ? 'error_' :  ''}`}>
+        <label htmlFor={id} >{title}<em>*</em></label>
+        <div 
+          className={`file_upload ${isDragged ? 'dragged_' : ''}`} 
+          onDragEnter={()=> setIsDragged(true)} 
+          onDragLeave={()=> setIsDragged(false)}
+        >
+            <div className='icon_'>
+              <RiUploadCloud2Line />
+            </div> 
+            <div className='upload_title'><span>Click to upload</span> or drag and drop</div>
+            <div className='helper_text'>{infoText}</div>
+            <input type={'file'} {...controller} id={id} onChange={uploadFn} accept={fileTypes}/>
+
+            {
+              isLoading &&
+              <div className='upload_loader'>
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                width="24px" height="30px" viewBox="0 0 24 30" xmlSpace="preserve">
+                  <rect x="0" y="0" width="4" height="10" fill="#333">
+                    <animateTransform attributeType="xml"
+                      attributeName="transform" type="translate"
+                      values="0 0; 0 20; 0 0"
+                      begin="0" dur="0.6s" repeatCount="indefinite" />
+                  </rect>
+                  <rect x="10" y="0" width="4" height="10" fill="#333">
+                    <animateTransform attributeType="xml"
+                      attributeName="transform" type="translate"
+                      values="0 0; 0 20; 0 0"
+                      begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+                  </rect>
+                  <rect x="20" y="0" width="4" height="10" fill="#333">
+                    <animateTransform attributeType="xml"
+                      attributeName="transform" type="translate"
+                      values="0 0; 0 20; 0 0"
+                      begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+                  </rect>
+                </svg>
+              </div>
+            }
+        </div>
+
+        {
+          uploadArray.length > 0 &&
+          
+          uploadArray.map((item, index)=> (
+            <div className='file_uploaded_list' key={'upploadList' + (Math.random())}>
+              <div className='upload_item'>
+                <div className='icon_'>
+
+                    {
+                      item.extension == 'png' ?
+                      <TbFileTypePng /> :
+                      item.extension == 'jpg' || item.extension == 'jpeg' ?
+                      <TbFileTypeJpg /> :
+                      item.extension == 'svg' ?
+                      <TbFileTypeSvg /> :
+                      item.extension == 'pdf' ?
+                      <TbFileTypePdf /> :
+                      item.extension == 'doc' ?
+                      <TbFileTypeDoc /> :
+                      item.extension == 'docx' ?
+                      <TbFileTypeDocx /> :
+                      item.extension == 'txt' ?
+                      <TbFileTypeTxt /> :
+                      item.extension == 'zip' ?
+                      <TbFileTypeZip /> :
+                      <MdOutlinePermMedia />
+                    }
+                  
+                </div>
+                <div className='info_'>
+                  <div className='name_'>{item.name}</div>
+                  <div className='size_'>{item.size} MB</div>
+                </div>
+                <div className='progress_'>100%</div>
+                <button className='close_' type='button' onClick={()=> deleteFile(index)}><IoMdClose /></button>
+              </div>
+            </div>
+          ))
+        }
+
+    </div>
   )
 }
 

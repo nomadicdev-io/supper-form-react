@@ -1,6 +1,7 @@
 import NEPApplicationForm from "./NEPApplicationForm"
 import NEPFormAction from "../NEPFormAction"
 import PersonalForm from "./Forms/PersonalForm"
+import EducationForm from "./Forms/EducationForm"
 
 const NEPApplicationFormWrapper = () => {
 
@@ -23,19 +24,21 @@ const NEPApplicationFormWrapper = () => {
   return (
     <div className="nep_application_formwrapper">
 
-        <NEPApplicationForm 
+        {/* <NEPApplicationForm 
             title={'Personal Information'}
             description={'Collect essential details: name, contact, address, birthdate, for efficient communication and record-keeping.'}
         >
             <PersonalForm />
-        </NEPApplicationForm>
-
-        {/* <NEPApplicationForm 
-            title={' Education History'}
-            description={'Capture academic journey: schools attended, degrees earned, achievements, to comprehend and assess educational background thoroughly.'}
-        />
+        </NEPApplicationForm> */}
 
         <NEPApplicationForm 
+            title={' Education History'}
+            description={'Capture academic journey: schools attended, degrees earned, achievements, to comprehend and assess educational background thoroughly.'}
+        >
+            <EducationForm />
+        </NEPApplicationForm>
+
+        {/*<NEPApplicationForm 
             title={'Work Experience'}
             description={'Gather employment data: job roles, companies, durations, responsibilities, for a comprehensive overview of professional history.'}
         />
