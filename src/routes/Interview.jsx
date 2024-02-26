@@ -1,15 +1,21 @@
 import { useEffect } from "react"
-import { useSetAtom } from "jotai"
-import { breadcrumbData } from "../App"
+import { useAtom, useSetAtom } from "jotai"
+import { applicationFormContext, breadcrumbData } from "../App"
 import NEPDashboardTitle from "../components/NEPDashboardTitle"
 import NEPApplicationSteps from "../components/NEPApplicationSteps"
 
 const Interview = () => {
 
   const setBreadcrumb = useSetAtom(breadcrumbData)
+  const [formContext, setFormContext] = useAtom(applicationFormContext)
 
   useEffect(()=> {
     setBreadcrumb([{title: 'Interview', route: '/interview'}])
+    setFormContext({
+      ...formContext,
+      tabIndex: 3,
+      activeIndex: 7,
+    })
   }, [])
 
   return (
@@ -18,7 +24,7 @@ const Interview = () => {
         <h2><span>NEP 4.0</span> AI Interview</h2>
       </NEPDashboardTitle>
 
-      <NEPApplicationSteps progress={93} activeIndex={2} />
+      <NEPApplicationSteps />
     </>
   )
 }

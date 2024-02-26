@@ -11,7 +11,7 @@ const Application = () => {
 
   const setBreadcrumb = useSetAtom(breadcrumbData)
   const [isFormStarted, setIsFormStarted] = useState(false)
-  const LS = window.localStorage
+  const LS = window.sessionStorage
 
   const startApplication = async ()=> {
     try{

@@ -52,12 +52,16 @@ const NEPApplicationFormWrapper = () => {
    }
 
    const settingForms = ()=> {
-        if(formContext.activeIndex) return;
-        
-        setFormContext({
-            ...formContext,
-            activeIndex: 1
-        })
+
+        if(formContext.activeIndex > formContext.formCount || !formContext.activeIndex) {
+            setFormContext({
+                ...formContext,
+                activeIndex: 1
+            })
+        }else{formContext.activeIndex}{
+            return
+        }
+
    }
 
    useEffect(()=> {

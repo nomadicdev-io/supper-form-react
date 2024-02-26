@@ -15,7 +15,7 @@ export const applicationFormContext = atom({
     activeIndex: null,
     formCount: 6, 
     tabIndex: null,
-    activeVideoURL: '',
+    activeVideoURL: '/personal_information.mp4',
 })
 
 export const breadcrumbData = atom([])
