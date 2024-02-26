@@ -21,9 +21,9 @@ const Application = () => {
   const [formContext, setFormContext] = useAtom(applicationFormContext)
 
   const checkingSumbmission = ()=> {
-      const isCompleted = window.sessionStorage.getItem('is_form_completed')
+      const isCompleted = window.localStorage.getItem('is_form_completed')
 
-      if(isCompleted){
+      if(isCompleted == 'true'){
         setFormContext({
           ...formContext, 
           isApplicationCompleted: true

@@ -96,11 +96,15 @@
 
     &_footer{
         position: relative;
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-top: 1px solid var(--nep-border-color-100);
-        padding-block: 1rem;
+        padding-block: 0.25rem;
         padding-inline: 0.5rem;
         background-color: var(--nep-dashboard-bg-color);
+        height: 3.5rem;
+
         p{
             position: relative;
             display: block;
@@ -404,7 +408,7 @@
             min-width: 90%;
             max-width: 90%;
             margin-inline: auto;
-
+            min-height: calc(100vh - 3.5rem);
             @media only screen and (min-width: 1440px){
                 min-width: 1260px;
                 max-width: 1260px;
@@ -417,7 +421,6 @@
             width: 100%;
             padding-top: 1.5rem;
             padding-bottom: 3.5rem;
-            min-height: 85vh;
         }
 
         .breadcrumb_{

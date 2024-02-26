@@ -65,7 +65,7 @@ const NEPApplicationFormWrapper = () => {
 
    const finishFn = async ()=> {
         try{
-            await window.sessionStorage.setItem('is_form_completed', true)
+            await window.localStorage.setItem('is_form_completed', true)
             setFormContext({
                 ...formContext,
                 isApplicationCompleted: true

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaRobot } from "react-icons/fa6";
 import { useEffect, useState } from 'react';
+import { useSetAtom } from 'jotai';
+import { statusIndicatorContext } from '../../../App';
 
 const ThankYouSection = ()=> {
 
@@ -82,6 +84,8 @@ const UploadFormSection = ()=> {
     return (
         <motion.div 
             className="nep_application_formwrapper"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ duration: 0.3, ease: [0.5, 1, 0.89, 1] }}
         >
@@ -149,7 +153,7 @@ const FinishedSection = ()=> {
     return (
         <div className="nep_application_formwrapper">
             <div className="nep_application_start">
-                Start Interview
+                Application Form Submitted !
             </div>
         </div>
     )
@@ -159,10 +163,22 @@ const SubmissionForm = () => {
 
     const [isUpload, setIsUpload] = useState(true)
     const isFormSubmited = window.localStorage.getItem('is_form_submited')
+    const setStatus = useSetAtom(statusIndicatorContext)
 
     useEffect(()=> {
+
+        if(isFormSubmited == 'true') return;
+
         setTimeout(()=> {
             setIsUpload(false)
+
+            setStatus({
+                type: 'success',
+                title: 'Application submitted successfully!',
+                message: 'You can start attend the AI Interview.',
+                show: true
+            })
+
         }, 5000)
     }, [])
 
