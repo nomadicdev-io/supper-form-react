@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai"
 import NEPProgressWidget from "./Application/NEPProgressWidget"
 import { applicationFormContext } from "../App"
 
-const NEPApplicationSteps = ({progress}) => {
+const NEPApplicationSteps = () => {
 
     const formContext = useAtomValue(applicationFormContext)
 

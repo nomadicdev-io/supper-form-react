@@ -6,7 +6,7 @@ const NEPProgressWidget = ({progress}) => {
   const [svgProgress, setSvgProgress] = useState(progress)
 
   useEffect(()=> {
-    const unit = 239 - (239/7 * progress);
+    const unit = 239 - (239/8 * progress);
     setSvgProgress(unit)
   }, [progress])
 
@@ -27,7 +27,7 @@ const NEPProgressWidget = ({progress}) => {
             <i><MdGraphicEq /></i>
         </div>
         <div className="title_">
-            <h4>{Math.ceil(100/7 * progress) > 100 ? 100 : Math.ceil(100/7 * progress)}%</h4>
+            <h4>{Math.ceil(100/8 * progress) > 100 ? 100 : Math.ceil(100/8 * progress)}%</h4>
         </div>
     </div>
   )

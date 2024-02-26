@@ -6,13 +6,15 @@ import ExperienceForm from "./Forms/ExperienceForm"
 import MindsetsForm from "./Forms/MindsetsForm"
 import MotivationForm from "./Forms/MotivationForm"
 import MoreForm from "./Forms/MoreForm"
-import { useAtom } from "jotai"
-import { useEffect } from "react"
-import { applicationFormContext } from "../../App"
+import { useAtom, useSetAtom } from "jotai"
+import { useEffect, useState } from "react"
+import { applicationFormContext, statusIndicatorContext } from "../../App"
 
 const NEPApplicationFormWrapper = () => {
 
     const [formContext, setFormContext] = useAtom(applicationFormContext)
+    const setStatus = useSetAtom(statusIndicatorContext)
+    const [draftLoader, setDraftLoader] = useState(false)
 
     const srollTop = ()=> {
         window.scrollTo({
@@ -44,11 +46,33 @@ const NEPApplicationFormWrapper = () => {
    }
 
    const draftFn = ()=> {
-    console.log('Draft Clicked')
+
+    setDraftLoader(true)
+
+    setTimeout(()=> {
+        setStatus({
+            type: 'success',
+            title: 'Saved to Draft!',
+            message: 'Your data has been saved to draft.',
+            show: true
+        })
+
+        setDraftLoader(false)
+
+    }, 1000)
+    
    }
 
-   const finishFn = ()=> {
-    console.log('Finsih Clicked')
+   const finishFn = async ()=> {
+        try{
+            await window.sessionStorage.setItem('is_form_completed', true)
+            setFormContext({
+                ...formContext,
+                isApplicationCompleted: true
+            })
+        }catch(error){
+            console.log(error)
+        }
    }
 
    const settingForms = ()=> {
@@ -66,6 +90,7 @@ const NEPApplicationFormWrapper = () => {
 
    useEffect(()=> {
     settingForms()
+
    }, [])
 
   return (
@@ -128,6 +153,7 @@ const NEPApplicationFormWrapper = () => {
 
 
                 <NEPFormAction 
+                    draftLoader={draftLoader}
                     onNext={()=> nextFn()}
                     onBack={()=> backFn()}
                     onDraft={()=> draftFn()}

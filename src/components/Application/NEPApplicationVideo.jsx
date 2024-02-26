@@ -20,17 +20,25 @@ const NEPApplicationVideo = () => {
   const muteFn = ()=> {
     setIsMute(!isMute)
     videoRef.current.muted = !videoRef.current.muted
+    videoRef?.current.play()
+    setIsPause(true)
+  }
+
+  const restartFn = ()=> {
+    videoRef.current.currentTime = 0;
   }
 
   useEffect(()=> {
     setTimeout(()=> {
      videoRef?.current.play()
+     setIsPause(true)
     }, 500)
   }, [])
 
   useEffect(()=> {
-    videoRef?.current.load();
-    videoRef?.current.play();
+    videoRef?.current.load()
+    videoRef?.current.play()
+    setIsPause(true)
   }, [formContext.activeVideoURL])
 
   return (
@@ -48,14 +56,14 @@ const NEPApplicationVideo = () => {
                 }
               </i>
             </button>
-            <button className={isMute ? 'active_' : '' } onClick={()=> muteFn()}>
+            <button onClick={()=> muteFn()}>
               <i>
                 {
                   isMute ? <FaVolumeDown /> : <FaVolumeMute />
                 }
               </i>
             </button>
-            <button>
+            <button onClick={restartFn}>
               <i><RiRefreshLine /></i>
             </button>
         </div>

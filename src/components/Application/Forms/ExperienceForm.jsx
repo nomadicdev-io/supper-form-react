@@ -58,7 +58,8 @@ const ExperienceForm = () => {
     useEffect(()=> {
         setFormContext({
             ...formContext,
-            tabIndex: 1
+            tabIndex: 1,
+            activeVideoURL: 'https://api-hcms-textract.s3.eu-west-2.amazonaws.com/open/bot/nep/registration/employment_history_and_contacts.mp4'
         })
     }, [])
 

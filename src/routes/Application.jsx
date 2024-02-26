@@ -1,31 +1,55 @@
 import NEPApplicationSteps from "../components/NEPApplicationSteps"
 import NEPDashboardTitle from "../components/NEPDashboardTitle"
 import { useEffect, useState } from "react"
-import { useSetAtom } from "jotai"
-import { breadcrumbData } from "../App"
+import { useAtom, useSetAtom } from "jotai"
+import { applicationFormContext, breadcrumbData } from "../App"
 import NEPApplicationVideo from "../components/Application/NEPApplicationVideo"
 import NEPApplicationFormWrapper from "../components/Application/NEPApplicationFormWrapper"
 import StartForm from "../components/Application/Forms/StartForm"
+import NEPSkeletonLoader from "../components/NEPSkeletonLoader"
+import SubmissionForm from "../components/Application/Forms/SubmissionForm"
+
 
 const Application = () => {
 
   const setBreadcrumb = useSetAtom(breadcrumbData)
-  const [isFormStarted, setIsFormStarted] = useState(false)
-  const LS = window.sessionStorage
+  const [loadingState, setLoadingState] = useState({
+      loader: true,
+      intro: false,
+      form: false
+  })
+  const [formContext, setFormContext] = useAtom(applicationFormContext)
 
-  const startApplication = async ()=> {
-    try{
-      await LS.setItem('aplication_started', true)
-      setIsFormStarted(true)
-    }catch(error){
-      console.log(error)
-    }
+  const checkingSumbmission = ()=> {
+      const isCompleted = window.sessionStorage.getItem('is_form_completed')
+
+      if(isCompleted){
+        setFormContext({
+          ...formContext, 
+          isApplicationCompleted: true
+        })
+
+        setTimeout(()=> {
+          setLoadingState({
+            loader: false,
+            intro: false,
+            form: false
+          })
+        }, 500)
+      }else{
+        setTimeout(()=> {
+          setLoadingState({
+            loader: false,
+            intro: true,
+            form: false
+          })
+        }, 500)
+      }
   }
 
   useEffect(()=> {
     setBreadcrumb([{title: 'Applicaiton', route: '/application'}])
-
-    LS.getItem('aplication_started') == 'true' ? setIsFormStarted(true) : LS.setItem('aplication_started', false)
+    checkingSumbmission();
   }, [])
 
   return (
@@ -34,24 +58,39 @@ const Application = () => {
         <h2>Your <span>NEP 4.0</span> Application</h2>
       </NEPDashboardTitle>
 
-      <NEPApplicationSteps progress={0}/>
-
       {
-        isFormStarted ?
-        <div className="nep_application_grid"> 
-        
-            <NEPApplicationFormWrapper />
-
-            <div className="nep_application_interactive">
-              <NEPApplicationVideo />
-            </div>
-
-        </div>
+        loadingState?.loader ?
+        <NEPSkeletonLoader />
         :
-        <StartForm onStart={startApplication}/>
+        <>
+        {
+          formContext.isApplicationCompleted ?
+          <SubmissionForm />
+          :
+          <>
+            {
+              loadingState?.intro &&
+              <StartForm onStart={()=> setLoadingState({loader: false, intro: false, form: true})} />
+            }
+  
+            {
+              loadingState?.form &&
+                <>
+                  <NEPApplicationSteps progress={0}/>
+                  <div className="nep_application_grid"> 
+                    <NEPApplicationFormWrapper />
+                    <div className="nep_application_interactive">
+                      <NEPApplicationVideo />
+                    </div>
+                  </div>
+                </>
+            }
+  
+          </>
+        }
+        </>
       }
 
-      
     </>
   )
 }

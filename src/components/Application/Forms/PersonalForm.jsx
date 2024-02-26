@@ -29,7 +29,8 @@ const PersonalForm = () => {
     useEffect(()=> {
         setFormContext({
             ...formContext,
-            tabIndex: 0
+            tabIndex: 0,
+            activeVideoURL: 'https://api-hcms-textract.s3.eu-west-2.amazonaws.com/open/bot/nep/registration/personal_information.mp4'
         })
     }, [])
 

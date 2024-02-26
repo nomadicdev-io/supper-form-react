@@ -23,7 +23,8 @@ const MindsetsForm = () => {
     useEffect(()=> {
         setFormContext({
             ...formContext,
-            tabIndex: 2
+            tabIndex: 2,
+            activeVideoURL: 'https://api-hcms-textract.s3.eu-west-2.amazonaws.com/open/bot/nep/registration/nep_five_mindset.mp4'
         })
     }, [])
 

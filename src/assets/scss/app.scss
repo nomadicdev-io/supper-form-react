@@ -19,6 +19,23 @@
     --nep-primary-bg-color: #ffede6;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--nep-border-color-100);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--nep-text-color);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--nep-text-color-300);
+  }
+  
+
 .nep_skeleton_loader{
     position: relative;
     display: grid;
@@ -30,7 +47,6 @@
         display: block;
         width: 100%;
         height: auto;
-        grid-column: 1/-1;
 
         &:nth-child(2), &:nth-child(3){
             grid-column: span 1;
@@ -39,7 +55,7 @@
         &:before, &:after{
             content: '';
             position: relative;
-            background: linear-gradient(-45deg, #efefef, #eaeaea, #ededed);
+            background: linear-gradient(-45deg, #efefef, #d7d7d7, #ededed);
             background-size: 400% 400%;
             animation: skeletonAnim 1s linear infinite alternate;
             display: block;
@@ -1019,18 +1035,98 @@
             display: block;
             text-align: center;
             padding-inline: 10%;
-            padding-block: 1rem;
+            padding-block: 1.25rem;
+
+            .upload_progress{
+                position: relative;
+                display: inline-block;
+                width: 17.5rem;
+                height: 17.5rem;
+                border-radius: 50%;
+                background-color: var(--nep-bg-color);
+                margin-bottom: 2.25rem;
+                margin-top: 1rem;
+                box-shadow: 0px 0px 40px 5px #fe672324;
+
+                .svg_{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+
+                    svg{
+                        display: block;
+                        width: 100%;
+                        height: auto;
+                        transform: scale(0.825);
+
+                        circle{
+                            stroke: #f5f3f3;
+                            stroke-width: 30px;
+                        }
+
+                        .progress_circle{
+                            stroke: var(--nep-primary-color);
+                            stroke-dasharray: 1512px;
+                            animation: circleUploadAnim 4s ease infinite alternate;
+                        }
+                    }
+                }
+
+                .icon_anim{
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    height: 100%;
+
+                    svg{
+                        position: relative;
+                        display: inline-block;
+                        width: 27%;
+                        height: auto;
+                        top: 2.5%;
+                        animation: uploadSVGAnim 1s ease infinite alternate;
+
+                        .upload_icon_anim{
+                            transform-box: fill-box;
+                            transform-origin: center;
+                            animation: uploadIconAnim 1s ease infinite alternate;
+                        }
+                    }
+                }
+            }
 
             .icon_{
                 position: relative;
-                display: inline-block;
-                
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1.75rem;
+                width: 15rem;
+                height: 15rem;
+                border-radius: 50%;
+                overflow: hidden;
+
+                &:before{
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    background-color: var(--nep-primary-color);
+                    opacity: 0.075;
+                }
+
                 svg{
                     position: relative;
                     display: inline-block;
-                    width: auto;
-                    height: 8rem;
-                    margin-bottom: 1.5rem;
+                    width: 60%;
+                    height: auto;
                 }
             }
 
@@ -1039,15 +1135,24 @@
                 display: block;
                 margin: 0;
                 font-weight: 700;
-                font-size: 1.8rem;
-                margin-bottom: 1em;
+                font-size: 2rem;
+                margin-bottom: 0.25em;
+
                 span{
                     color: var(--nep-primary-color);
                 }
             }
 
             p{
-                font-size: 1.2rem;
+                display: block;
+                font-size: 1.1rem;
+                margin: 0;
+                max-width: 90%;
+                margin-inline: auto;
+            }
+
+            .nep_btn_group{
+                margin-top: 2rem;
             }
         }
        
@@ -1156,4 +1261,35 @@
 
 @keyframes micPulse {
     to{transform: scale(1);opacity: 0;}
+}
+
+@keyframes circleUploadAnim {
+    0% {
+        stroke-dashoffset: 0px;
+        stroke-dasharray: 1512px;
+    }
+    50% {
+        stroke-dashoffset: 1512px;
+        stroke-dasharray: 400px;
+    }
+    100% {
+        stroke-dashoffset: 0px;
+        stroke-dasharray: 1512px;
+    }
+}
+
+
+@keyframes uploadIconAnim {
+    from{
+        transform: translateY(10%);
+    }
+    to{
+        transform: translateY(-7.5%);
+    }
+}
+
+@keyframes uploadSVGAnim {
+    to{
+        transform: scale(0.85) rotate(-3deg);
+    }
 }
