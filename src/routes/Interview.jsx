@@ -41,7 +41,6 @@ const Interview = () => {
       <NEPDashboardTitle welcomeMessage={true}>
         <h2><span>NEP 4.0</span> AI Interview</h2>
       </NEPDashboardTitle>
-
       {
         isLoading ?
         <NEPSkeletonLoader />
