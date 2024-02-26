@@ -9,9 +9,18 @@ import { statusIndicatorContext } from '../../../App';
 const ThankYouSection = ()=> {
 
     const navigate = useNavigate();
+    const setStatus = useSetAtom(statusIndicatorContext)
 
     useEffect(()=> {
         window.localStorage.setItem('is_form_submited', true)
+
+        setStatus({
+            type: 'success',
+            title: 'Application submitted successfully!',
+            message: 'You can start attend the AI Interview.',
+            show: true
+        })
+
     }, [])
 
     return (
@@ -20,7 +29,7 @@ const ThankYouSection = ()=> {
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.7 }}
-            transition={{ duration: 0.3, ease: [0.5, 1, 0.89, 1] }}
+            transition={{ duration: 0.3, ease: [0.5, 1, 0.89, 1], delay: 0.15 }}
         >
 
             <div className="nep_application_start">
@@ -163,7 +172,6 @@ const SubmissionForm = () => {
 
     const [isUpload, setIsUpload] = useState(true)
     const isFormSubmited = window.localStorage.getItem('is_form_submited')
-    const setStatus = useSetAtom(statusIndicatorContext)
 
     useEffect(()=> {
 
@@ -171,36 +179,20 @@ const SubmissionForm = () => {
 
         setTimeout(()=> {
             setIsUpload(false)
+        }, 6000)
 
-            setStatus({
-                type: 'success',
-                title: 'Application submitted successfully!',
-                message: 'You can start attend the AI Interview.',
-                show: true
-            })
-
-        }, 5000)
     }, [])
 
-    if(isFormSubmited == 'true'){
-        return <FinishedSection />
-    }
-
+   
   return (
-    <>
-
     <AnimatePresence>
-
         {
             isUpload ? 
             <UploadFormSection />
             :
             <ThankYouSection />
         }
-
     </AnimatePresence>
-
-    </>
   )
 }
 
