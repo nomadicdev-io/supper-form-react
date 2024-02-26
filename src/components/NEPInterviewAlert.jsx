@@ -1,12 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaRegFileLines } from "react-icons/fa6";
+import NEPSectionBG from "./NEPSectionBG";
+import {motion} from 'framer-motion'
 
 const NEPInterviewAlert = () => {
 
     const navigate = useNavigate();
 
   return (
-    <div className="nep_application_formwrapper">
+    <motion.div 
+        className="nep_application_formwrapper"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        transition={{ duration: 0.4, ease: [0.5, 1, 0.89, 1], delay: 0.3 }}
+        >
+
+        <NEPSectionBG />
       <div className="nep_application_start">
         <div className="icon_">
             <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -92,7 +102,7 @@ const NEPInterviewAlert = () => {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

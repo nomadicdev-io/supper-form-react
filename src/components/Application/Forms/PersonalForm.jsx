@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { NEPDatepicker, NEPInput, NEPRadio, NEPSelect } from "../../forms/NEPFormComponets";
 import { useAtom } from "jotai";
-import { applicationFormContext } from "../../../App";
+import { LS, applicationFormContext } from "../../../App";
 
 const PersonalForm = () => {
 
@@ -27,6 +27,7 @@ const PersonalForm = () => {
     }
 
     useEffect(()=> {
+        LS.setItem('tab_index', 0)
         setFormContext({
             ...formContext,
             tabIndex: 0,

@@ -4,7 +4,7 @@ import { NEPInput, NEPSelect, NEPUpload } from "../../forms/NEPFormComponets";
 import { FaPlus } from "react-icons/fa6";
 import { FaTrashAlt } from "react-icons/fa";
 import { useAtom } from "jotai";
-import { applicationFormContext } from "../../../App";
+import { LS, applicationFormContext } from "../../../App";
 
 const EducationForm = () => {
 
@@ -39,6 +39,7 @@ const EducationForm = () => {
     }
 
     useEffect(()=> {
+        LS.setItem('tab_index', 1)
         setFormContext({
             ...formContext,
             tabIndex: 1,

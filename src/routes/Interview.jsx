@@ -11,42 +11,14 @@ const Interview = () => {
   const setBreadcrumb = useSetAtom(breadcrumbData)
   const [formContext, setFormContext] = useAtom(applicationFormContext)
 
-  const [loadingState, setLoadingState] = useState({
-    start: false,
-    loader: true,
-    interview: false
-  })
+  const [isLoading, setIsLoading] = useState(true)
 
   const startInterview = ()=> {
-    if(formContext.isApplicationCompleted){
-      setLoadingState({
-        start: false,
-        loader: true,
-        interview: false
-      })
+    setIsLoading(true);
 
-      setTimeout(()=> {
-        setLoadingState({
-          start: false,
-          loader: false,
-          interview: true
-        })
-      }, 500)
-    }else{
-      setLoadingState({
-        start: false,
-        loader: true,
-        interview: false
-      })
-
-      setTimeout(()=> {
-        setLoadingState({
-          start: true,
-          loader: false,
-          interview: false
-        })
-      }, 500)
-    }
+    setTimeout(()=> {
+      setIsLoading(false);
+    }, 500)
   }
 
   useEffect(()=> {
@@ -71,22 +43,18 @@ const Interview = () => {
       </NEPDashboardTitle>
 
       {
-        loadingState.start &&
-        <NEPInterviewAlert />
-      }
-
-      {
-        loadingState.loader && 
+        isLoading ?
         <NEPSkeletonLoader />
-      }
-
-      {
-        loadingState.interview &&
+        :
         <>
-          <NEPApplicationSteps />
+          {
+            formContext.isApplicationCompleted ?
+            <NEPApplicationSteps />
+            :
+            <NEPInterviewAlert />
+          }
         </>
       }
-
     </>
   )
 }

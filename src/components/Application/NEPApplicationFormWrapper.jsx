@@ -8,7 +8,7 @@ import MotivationForm from "./Forms/MotivationForm"
 import MoreForm from "./Forms/MoreForm"
 import { useAtom, useSetAtom } from "jotai"
 import { useEffect, useState } from "react"
-import { applicationFormContext, statusIndicatorContext } from "../../App"
+import { LS, applicationFormContext, statusIndicatorContext } from "../../App"
 
 const NEPApplicationFormWrapper = () => {
 
@@ -26,6 +26,9 @@ const NEPApplicationFormWrapper = () => {
    const nextFn = ()=> {
         if(formContext.activeIndex > formContext.formCount) return;
         const newIndex = formContext.activeIndex + 1
+
+        LS.setItem('active_index', newIndex)
+
         setFormContext({ 
             ...formContext,
             activeIndex: newIndex
@@ -37,6 +40,9 @@ const NEPApplicationFormWrapper = () => {
    const backFn = ()=> {
         if(formContext.activeIndex == 0) return;
         const newIndex = formContext.activeIndex - 1
+
+        LS.setItem('active_index', newIndex)
+
         setFormContext({ 
             ...formContext,
             activeIndex: newIndex
@@ -47,49 +53,32 @@ const NEPApplicationFormWrapper = () => {
 
    const draftFn = ()=> {
 
-    setDraftLoader(true)
+        setDraftLoader(true)
 
-    setTimeout(()=> {
-        setStatus({
-            type: 'success',
-            title: 'Saved to Draft!',
-            message: 'Your data has been saved to draft.',
-            show: true
-        })
+        setTimeout(()=> {
+            setStatus({
+                type: 'success',
+                title: 'Saved to Draft!',
+                message: 'Your data has been saved to draft.',
+                show: true
+            })
 
-        setDraftLoader(false)
+            setDraftLoader(false)
 
-    }, 1000)
+        }, 1000)
     
    }
 
-   const finishFn = async ()=> {
-        try{
-            await window.localStorage.setItem('is_form_completed', true)
-            setFormContext({
-                ...formContext,
-                isApplicationCompleted: true
-            })
-        }catch(error){
-            console.log(error)
-        }
-   }
-
-   const settingForms = ()=> {
-
-        if(formContext.activeIndex > formContext.formCount || !formContext.activeIndex) {
-            setFormContext({
-                ...formContext,
-                activeIndex: 1
-            })
-        }else{formContext.activeIndex}{
-            return
-        }
-
+   const finishFn = ()=> {
+        LS.setItem('is_application_completed', true)
+        setFormContext({
+            ...formContext,
+            isApplicationCompleted: true
+        })
+        srollTop()
    }
 
    useEffect(()=> {
-    settingForms()
 
    }, [])
 

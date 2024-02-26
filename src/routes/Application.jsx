@@ -13,38 +13,16 @@ import SubmissionForm from "../components/Application/Forms/SubmissionForm"
 const Application = () => {
 
   const setBreadcrumb = useSetAtom(breadcrumbData)
-  const [loadingState, setLoadingState] = useState({
-      loader: true,
-      intro: false,
-      form: false
-  })
+  const [isLoading, setIsLoading] = useState(true)
+  const [startForm, setStartForm] = useState(false)
   const [formContext, setFormContext] = useAtom(applicationFormContext)
 
   const checkingSumbmission = ()=> {
-      const isCompleted = window.localStorage.getItem('is_form_completed')
+    setIsLoading(true);
 
-      if(isCompleted == 'true'){
-        setFormContext({
-          ...formContext, 
-          isApplicationCompleted: true
-        })
-
-        setTimeout(()=> {
-          setLoadingState({
-            loader: false,
-            intro: false,
-            form: false
-          })
-        }, 500)
-      }else{
-        setTimeout(()=> {
-          setLoadingState({
-            loader: false,
-            intro: true,
-            form: false
-          })
-        }, 500)
-      }
+    setTimeout(()=> {
+      setIsLoading(false);
+    }, 500)
   }
 
   useEffect(()=> {
@@ -59,35 +37,32 @@ const Application = () => {
       </NEPDashboardTitle>
 
       {
-        loadingState?.loader ?
-        <NEPSkeletonLoader />
+        isLoading ?
+        <NEPSkeletonLoader /> 
         :
         <>
-        {
-          formContext.isApplicationCompleted ?
-          <SubmissionForm />
-          :
-          <>
-            {
-              loadingState?.intro &&
-              <StartForm onStart={()=> setLoadingState({loader: false, intro: false, form: true})} />
-            }
-  
-            {
-              loadingState?.form &&
-                <>
-                  <NEPApplicationSteps progress={0}/>
-                  <div className="nep_application_grid"> 
-                    <NEPApplicationFormWrapper />
-                    <div className="nep_application_interactive">
-                      <NEPApplicationVideo />
+          {
+            formContext.isApplicationCompleted ?
+            <SubmissionForm />
+            :
+            <>
+              {
+                startForm ?
+                  <>
+                    <NEPApplicationSteps progress={0}/>
+                    <div className="nep_application_grid"> 
+                      <NEPApplicationFormWrapper />
+                      <div className="nep_application_interactive">
+                        <NEPApplicationVideo />
+                      </div>
                     </div>
-                  </div>
-                </>
-            }
-  
-          </>
-        }
+                  </>
+                :
+                <StartForm onStart={()=> setStartForm(true)} />
+              }
+            </>
+
+          }
         </>
       }
 

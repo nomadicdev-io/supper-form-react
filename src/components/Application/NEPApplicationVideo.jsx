@@ -20,25 +20,30 @@ const NEPApplicationVideo = () => {
   const muteFn = ()=> {
     setIsMute(!isMute)
     videoRef.current.muted = !videoRef.current.muted
-    videoRef?.current.play()
-    setIsPause(true)
   }
 
   const restartFn = ()=> {
     videoRef.current.currentTime = 0;
+    videoRef.current.play()
+  }
+
+  const initVideo = async ()=> {
+    try{
+      videoRef.current.currentTime = 0;
+      await videoRef.current.play()
+      setIsPause(true)
+
+      videoRef.current.onended = ()=> {
+        setIsPause(false)
+      };
+
+    }catch(error){
+      console.log(error)
+    }
   }
 
   useEffect(()=> {
-    setTimeout(()=> {
-     videoRef?.current.play()
-     setIsPause(true)
-    }, 500)
-  }, [])
-
-  useEffect(()=> {
-    videoRef?.current.load()
-    videoRef?.current.play()
-    setIsPause(true)
+    initVideo()
   }, [formContext.activeVideoURL])
 
   return (

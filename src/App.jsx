@@ -9,9 +9,12 @@ import NEPDashboardSidebar from "./components/NEPDashboardSidebar"
 import NEPDashboardContainer from "./components/NEPDashboardContainer"
 import NEPDashboardHeader from "./components/NEPDashboardHeader"
 import NEPFooter from "./components/NEPFooter"
-import { atom, useAtomValue } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
 import NEPStatusIndicator from "./components/NEPStatusIndicator"
 import { AnimatePresence } from "framer-motion"
+import { useEffect } from "react"
+
+export const LS = window.localStorage
 
 export const applicationFormContext = atom({
     activeIndex: null,
@@ -19,6 +22,9 @@ export const applicationFormContext = atom({
     tabIndex: null,
     activeVideoURL: '/personal_information.mp4',
     isApplicationCompleted: false,
+    isUploadingFinished: false,
+    isFormSessionFinished: false,
+    isInterviewCompleted: false,
 })
 
 export const statusIndicatorContext = atom({
@@ -33,6 +39,32 @@ export const breadcrumbData = atom([])
 function App() {
 
   const status = useAtomValue(statusIndicatorContext)
+  const [context, setContext] = useAtom(applicationFormContext)
+
+  const fetchingUserData = ()=> {
+    const isApplicationCompleted = LS.getItem('is_application_completed')
+    const activeIndex = LS.getItem('active_index')
+    const tabIndex = LS.getItem('tab_index')
+    const isUploadingFinished = LS.getItem('is_uploading_finished')
+    const isFormSessionFinished = LS.getItem('is_form_session_finished')
+    const isInterviewCompleted = LS.getItem('is_interview_completed')
+    
+    setContext({
+      ...context,
+      isApplicationCompleted: isApplicationCompleted ? Boolean(isApplicationCompleted) : false,
+      activeIndex: activeIndex ? +activeIndex : 1,
+      tabIndex: tabIndex ? +tabIndex : 0,
+      isUploadingFinished: isUploadingFinished ? Boolean(isUploadingFinished) : false,
+      isFormSessionFinished: isFormSessionFinished ? Boolean(isFormSessionFinished) : false,
+      isInterviewCompleted: isInterviewCompleted ? Boolean(isInterviewCompleted) : false,
+    })
+
+  }
+
+
+  useEffect(()=> {
+    fetchingUserData();
+  }, [])
 
   return (
     <main className="nep_dashboard">

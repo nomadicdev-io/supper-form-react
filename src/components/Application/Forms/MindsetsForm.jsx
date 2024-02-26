@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form"
 import { NEPTextarea } from "../../forms/NEPFormComponets";
 import NEPFormSectionDescription from "../../forms/NEPFormSectionDescription";
 import { useAtom } from "jotai";
-import { applicationFormContext } from "../../../App";
+import { LS, applicationFormContext } from "../../../App";
 
 const MindsetsForm = () => {
     
@@ -21,6 +21,7 @@ const MindsetsForm = () => {
     }
 
     useEffect(()=> {
+        LS.setItem('tab_index', 2)
         setFormContext({
             ...formContext,
             tabIndex: 2,

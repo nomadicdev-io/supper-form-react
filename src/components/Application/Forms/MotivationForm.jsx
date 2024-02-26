@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { NEPTextarea, NEPSelect } from "../../forms/NEPFormComponets";
 import { useAtom } from "jotai";
-import { applicationFormContext } from "../../../App";
+import { LS, applicationFormContext } from "../../../App";
 
 const MotivationForm = () => {
     
@@ -27,6 +27,7 @@ const MotivationForm = () => {
     }
 
     useEffect(()=> {
+        LS.setItem('tab_index', 2)
         setFormContext({
             ...formContext,
             tabIndex: 2,
