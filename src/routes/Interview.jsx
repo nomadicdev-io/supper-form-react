@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { useAtom, useSetAtom } from "jotai"
 import { applicationFormContext, breadcrumbData } from "../App"
 import NEPDashboardTitle from "../components/NEPDashboardTitle"
-import NEPApplicationSteps from "../components/NEPApplicationSteps"
 import NEPInterviewInfo from "../components/NEPInterviewInfo"
 import NEPSkeletonLoader from "../components/NEPSkeletonLoader"
+import NEPInterviewIntroSection from "../components/sections/NEPInterviewIntroSection"
 
 const Interview = () => {
 
@@ -48,7 +48,7 @@ const Interview = () => {
         <>
           {
             formContext.isApplicationCompleted ?
-            <NEPApplicationSteps />
+            <NEPInterviewIntroSection />
             :
             <NEPInterviewInfo />
           }
