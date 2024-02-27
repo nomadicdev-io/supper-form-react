@@ -3,7 +3,7 @@ import { useAtom, useSetAtom } from "jotai"
 import { applicationFormContext, breadcrumbData } from "../App"
 import NEPDashboardTitle from "../components/NEPDashboardTitle"
 import NEPApplicationSteps from "../components/NEPApplicationSteps"
-import NEPInterviewAlert from "../components/NEPInterviewAlert"
+import NEPInterviewInfo from "../components/NEPInterviewInfo"
 import NEPSkeletonLoader from "../components/NEPSkeletonLoader"
 
 const Interview = () => {
@@ -50,7 +50,7 @@ const Interview = () => {
             formContext.isApplicationCompleted ?
             <NEPApplicationSteps />
             :
-            <NEPInterviewAlert />
+            <NEPInterviewInfo />
           }
         </>
       }

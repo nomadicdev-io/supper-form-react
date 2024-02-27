@@ -10,14 +10,14 @@ const NEPApplicationSteps = () => {
         'Personal Information',
         'Professional Experience',
         'Motivation',
-        'All Interview'
+        'AI Interview'
     ]
   return (
     <div className="nep_application_steps">
         <ul>
             {
                 steps.map((item, index)=> (
-                    <li key={'steps' + index} className={index <= formContext.tabIndex ? 'active_' : ''}><span>{'0'+(index + 1)}</span><p>{item}</p></li>
+                    <li key={'steps' + index} className={`${index <= formContext.tabIndex ? 'active_' : ''} ${index <= (formContext.tabIndex - 1) ? 'completed_' : ''}`}><span>{'0'+(index + 1)}</span><p>{item}</p></li>
                 ))
             }
         </ul>

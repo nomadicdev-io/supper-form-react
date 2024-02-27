@@ -5,12 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import { useAtomValue } from "jotai";
 import { applicationFormContext } from "../../App";
 
-const NEPApplicationVideo = () => {
+const NEPApplicationVideo = ({videoUrl}) => {
 
   const [isMute, setIsMute] = useState(false)
   const [isPause, setIsPause] = useState(false)
   const videoRef = useRef(null)
-  const formContext = useAtomValue(applicationFormContext)
 
   const playFn = ()=> {
     isPause ? videoRef.current.pause() : videoRef.current.play()
@@ -29,9 +28,13 @@ const NEPApplicationVideo = () => {
 
   const initVideo = async ()=> {
     try{
+      await videoRef.current.load()
       videoRef.current.currentTime = 0;
-      await videoRef.current.play()
-      setIsPause(true)
+      
+      setTimeout(()=> {
+        videoRef.current.play()
+        setIsPause(true)
+      }, 100)
 
       videoRef.current.onended = ()=> {
         setIsPause(false)
@@ -44,13 +47,13 @@ const NEPApplicationVideo = () => {
 
   useEffect(()=> {
     initVideo()
-  }, [formContext.activeVideoURL])
+  }, [videoUrl])
 
   return (
     <div className="nep_application_video">
       <div className="video_">
         <video poster="/ai-form-poster.png" ref={videoRef}>
-          <source src={formContext.activeVideoURL} type="video/mp4"/>
+          <source src={videoUrl} type="video/mp4"/>
         </video>
 
         <div className="details_">

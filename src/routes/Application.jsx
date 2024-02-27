@@ -53,12 +53,14 @@ const Application = () => {
                     <div className="nep_application_grid"> 
                       <NEPApplicationFormWrapper />
                       <div className="nep_application_interactive">
-                        <NEPApplicationVideo />
+                        <NEPApplicationVideo videoUrl={formContext.activeVideoURL}/>
                       </div>
                     </div>
                   </>
                 :
-                <StartForm onStart={()=> setStartForm(true)} />
+               
+                  <StartForm onStart={()=> setStartForm(true)} />
+                
               }
             </>
 

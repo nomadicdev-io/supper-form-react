@@ -1,5 +1,6 @@
 import { TbLogout } from "react-icons/tb";
 import NEPDashboardBreadcrumb from "./NEPDashboardBreadcrumb";
+import { Link } from "react-router-dom";
 
 const NEPDashboardHeader = () => {
   return (
@@ -8,12 +9,12 @@ const NEPDashboardHeader = () => {
        <NEPDashboardBreadcrumb />
 
         <div className="action_">
-            <button className="logout_" type="button">
+            <button className="h_btn logout_" type="button">
                 <TbLogout />
             </button>
-            <button className="profile_" type="button">
+            <Link to={'/settings'} className="h_btn profile_" type="button">
                 <img src="/profile-pic.png" alt="NEP User Profile" />
-            </button>
+            </Link>
         </div>
         
     </div>

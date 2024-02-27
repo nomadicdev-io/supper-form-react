@@ -9,25 +9,28 @@ const ThankYouSection = ()=> {
     const setStatus = useSetAtom(statusIndicatorContext)
 
     useEffect(()=> {
-        LS.setItem('is_form_session_finished', true)
-        setTimeout(()=> {
-            setStatus({
-                type: 'success',
-                title: 'Application submitted successfully!',
-                message: 'You can start attend the AI Interview.',
-                show: true
-            })
-        }, 500)
-
+        
+        if(LS.getItem('is_form_session_finished') != 'true'){
+            setTimeout(()=> {
+                setStatus({
+                    type: 'success',
+                    title: 'Application submitted successfully!',
+                    message: 'You can start attend the AI Interview.',
+                    show: true
+                })
+            }, 500)
+            LS.setItem('is_form_session_finished', true)
+        }
+        
     }, [])
 
     return (
         <NEPInfoSection
             imageUrl={'/thank-you.svg'}
-            primaryButton={{title: 'Start The Interview', path: '/interview'}}
+            buttonArray={[{title: 'Start AI Interview', path: '/interview', type: 'primary'}]}
         >
             <h3><span>Thank You, </span> for your submission !</h3>
-            <p>Form submitted!. Your submission is important to us and appreciated. Our team will carefully review the details provided. <strong>You can start your AI interview.</strong></p>
+            <p>Form submitted!. Your submission is important to us and appreciated. Our team will carefully review the details provided. <strong>You can start your AI Interview.</strong></p>
         </NEPInfoSection>
     )
 }
@@ -111,17 +114,25 @@ const FinishedSection = ()=> {
     return (
         <NEPInfoSection
             imageUrl={'/interview.svg'}
-            primaryButton={{title: 'Start The Interview', path: '/interview'}}
-            secondaryButton={{title: 'Back To Home', path: '/'}}
+            buttonArray={[{title: 'Back To Home', path: '/', type: 'secondary'}, {title: 'Start AI Interview', path: '/interview', type: 'primary'}]}
         >
-            <h3><span>Application</span> already submitted. <br /> You can start your <span>interview!</span></h3>
+            <h3><span>Application</span> already submitted. <br /> You can start your <span>AI Interview!</span></h3>
         </NEPInfoSection>
     )
 }
 
 const SubmissionForm = () => {
 
-    const formContext = useAtomValue(applicationFormContext)
+    const [formContext, setFormContext] = useAtom(applicationFormContext)
+
+    useEffect(()=> {
+        if(LS.getItem('is_form_session_finished') == 'true'){
+            setFormContext({
+                ...formContext,
+                isFormSessionFinished: true
+            })
+        }
+    }, [])
    
   return (
     <AnimatePresence>

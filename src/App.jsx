@@ -12,7 +12,8 @@ import NEPFooter from "./components/NEPFooter"
 import { atom, useAtom, useAtomValue } from 'jotai';
 import NEPStatusIndicator from "./components/NEPStatusIndicator"
 import { AnimatePresence } from "framer-motion"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import {NEPSkeletonLoaderBody} from "./components/NEPSkeletonLoader"
 
 export const LS = window.localStorage
 
@@ -40,27 +41,36 @@ function App() {
 
   const status = useAtomValue(statusIndicatorContext)
   const [context, setContext] = useAtom(applicationFormContext)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const fetchingUserData = ()=> {
-    const isApplicationCompleted = LS.getItem('is_application_completed')
-    const activeIndex = LS.getItem('active_index')
-    const tabIndex = LS.getItem('tab_index')
-    const isUploadingFinished = LS.getItem('is_uploading_finished')
-    const isFormSessionFinished = LS.getItem('is_form_session_finished')
-    const isInterviewCompleted = LS.getItem('is_interview_completed')
-    
-    setContext({
-      ...context,
-      isApplicationCompleted: isApplicationCompleted ? Boolean(isApplicationCompleted) : false,
-      activeIndex: activeIndex ? +activeIndex : 1,
-      tabIndex: tabIndex ? +tabIndex : 0,
-      isUploadingFinished: isUploadingFinished ? Boolean(isUploadingFinished) : false,
-      isFormSessionFinished: isFormSessionFinished ? Boolean(isFormSessionFinished) : false,
-      isInterviewCompleted: isInterviewCompleted ? Boolean(isInterviewCompleted) : false,
-    })
+  const fetchingUserData = async ()=> {
+    try{
+      setIsLoading(true)
+      const isApplicationCompleted = await LS.getItem('is_application_completed')
+      const activeIndex = await LS.getItem('active_index')
+      const tabIndex = await LS.getItem('tab_index')
+      const isUploadingFinished = await LS.getItem('is_uploading_finished')
+      const isFormSessionFinished = await LS.getItem('is_form_session_finished')
+      const isInterviewCompleted = await LS.getItem('is_interview_completed')
+      
+      setContext({
+        ...context,
+        isApplicationCompleted: isApplicationCompleted ? Boolean(isApplicationCompleted) : false,
+        activeIndex: activeIndex ? +activeIndex : 1,
+        tabIndex: tabIndex ? +tabIndex : 0,
+        isUploadingFinished: isUploadingFinished ? Boolean(isUploadingFinished) : false,
+        isFormSessionFinished: isFormSessionFinished ? Boolean(isFormSessionFinished) : false,
+        isInterviewCompleted: isInterviewCompleted ? Boolean(isInterviewCompleted) : false,
+      })
+
+      setIsLoading(false)
+
+    }catch(error){
+      console.log(error)
+      setIsLoading(false)
+    }
 
   }
-
 
   useEffect(()=> {
     fetchingUserData();
@@ -73,15 +83,20 @@ function App() {
       <NEPDashboardContainer>
           <NEPDashboardHeader />
 
-          <div className="nep_dashboard_contentbody">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/application" element={<Application />} />
-              <Route path="/interview" element={<Interview />} />
-              <Route path="/assessment" element={<Assessment />} />
-              <Route path="/settings" element={<Settings />} />
-            </Routes>
-          </div>
+          {
+            isLoading ?
+            <NEPSkeletonLoaderBody />
+            :
+            <div className="nep_dashboard_contentbody">
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/application" element={<Application />} />
+                <Route path="/interview" element={<Interview />} />
+                <Route path="/assessment" element={<Assessment />} />
+                <Route path="/settings" element={<Settings />} />
+              </Routes>
+            </div>
+          }
 
       </NEPDashboardContainer>
 
