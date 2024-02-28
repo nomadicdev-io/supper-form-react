@@ -380,3 +380,50 @@
 .no_padding{
     padding: 0 !important;
 }
+
+.info_icon_group{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
+    margin-top: 1.25rem;
+}
+
+.info_button{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+    font-size: 3rem;
+    background-color: var(--nep-bg-color);
+    box-shadow: 0px 0px 40px 5px #fe672324;
+    color: var(--nep-primary-color);
+}
+
+
+.alert_message{
+    position: relative;
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 1.5rem;
+    border: 1px solid var(--nep-border-color-100);
+    border-radius: 1.5rem;
+    background-color: var(--nep-dashboard-bg-color);
+
+    p{
+        width: 100%;
+        max-width: 100% !important;
+        font-size: 1rem !important;
+
+        strong{
+            color: var(--nep-primary-color);
+        }
+    }
+}

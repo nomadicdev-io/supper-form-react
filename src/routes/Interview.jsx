@@ -5,6 +5,7 @@ import NEPDashboardTitle from "../components/NEPDashboardTitle"
 import NEPInterviewInfo from "../components/NEPInterviewInfo"
 import NEPSkeletonLoader from "../components/NEPSkeletonLoader"
 import NEPInterviewIntroSection from "../components/sections/NEPInterviewIntroSection"
+import NEPChatSection from "../components/sections/NEPChatSection"
 
 const Interview = () => {
 
@@ -12,6 +13,7 @@ const Interview = () => {
   const [formContext, setFormContext] = useAtom(applicationFormContext)
 
   const [isLoading, setIsLoading] = useState(true)
+  const [isChatApproved, setIsChatApproved] = useState(false)
 
   const startInterview = ()=> {
     setIsLoading(true);
@@ -38,9 +40,13 @@ const Interview = () => {
 
   return (
     <>
-      <NEPDashboardTitle welcomeMessage={true}>
-        <h2><span>NEP 4.0</span> AI Interview</h2>
-      </NEPDashboardTitle>
+      {
+        !isChatApproved &&
+        <NEPDashboardTitle welcomeMessage={true}>
+          <h2><span>NEP 4.0</span> AI Interview</h2>
+        </NEPDashboardTitle>
+      }
+
       {
         isLoading ?
         <NEPSkeletonLoader />
@@ -48,7 +54,12 @@ const Interview = () => {
         <>
           {
             formContext.isApplicationCompleted ?
-            <NEPInterviewIntroSection />
+            <>
+              {
+                isChatApproved ? <NEPChatSection /> : <NEPInterviewIntroSection isFinished={()=> setIsChatApproved(true)}/>
+              }
+            </>
+            
             :
             <NEPInterviewInfo />
           }
