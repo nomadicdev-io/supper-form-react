@@ -1641,6 +1641,8 @@
                         border-radius: 50%;
                         background-color: var(--nep-red-color);
                         transform: scale(0.45);
+                        animation: pulseAnim 0.5s linear infinite alternate;
+                        
                     }
 
                 }
@@ -1670,7 +1672,8 @@
 
         &_chatbox{
             position: relative;
-            display: block;
+            display: flex;
+            flex-direction: column;
             width: 100%;
             border-radius: 1.5rem;
             overflow: hidden;
@@ -1703,7 +1706,97 @@
                         object-fit: cover;
                         object-position: center;
                     }
+
+                    &:after{
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 50%;
+                        background-color: var(--nep-green-color);
+                        margin: 4px;
+                    }
                 }
+
+                .name_{
+                    position: relative;
+                    display: block;
+                    flex: 1;
+
+                    h4,p{
+                        position: relative;
+                        display: block;
+                        margin: 0;
+                        padding: 0;
+                        line-height: 1.5;
+                    }
+
+                    h4{
+                        font-weight: 700;
+                        font-size: 1rem;
+                    }
+
+                    p{
+                        font-size: 0.75rem;
+                    }
+                }
+            }
+
+            .chat_box{
+                position: relative;
+                display: flex;
+                width: 100%;
+                flex: 1;
+                padding: 0 1rem 1rem;
+                flex-direction: column;
+                justify-content: flex-end;
+                gap: 1rem;
+            }
+
+            .chat_item{
+                position: relative;
+                display: flex;
+                align-items: flex-start;
+                justify-content: flex-start;
+                flex-direction: column;
+
+                .message_{
+                    position: relative;
+                    display: block;
+                    max-width: 90%;
+                    background-color: #dadada;
+                    font-weight: 500;
+                    font-size: 0.8rem;
+                    padding: 1em;
+                    border-radius: 1rem 1rem 1rem 0;
+                    background-color: var(--nep-primary-bg-color);
+                }
+
+                .time_{
+                    position: relative;
+                    display: inline-block;
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                    opacity: 0.65;
+                    margin-top: 0.5em;
+                }
+
+                
+                &.user_{
+                    justify-content: flex-start;
+                    align-items: flex-end;
+                    text-align: end;
+
+
+                    .message_{
+                        border-radius: 1rem 1rem 0 1rem;
+                        background-color: var(--nep-primary-color);
+                        color: var(--nep-bg-color);
+                    }
+                }
+
             }
         }
 
@@ -1711,14 +1804,230 @@
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             gap: 0.75rem;
             width: 100%;
             background-color: var(--nep-dashboard-bg-color);
+            height: 3.75rem;
+            padding: 0.5rem;
+            border-radius: calc(3.75rem/2);
+
+
+            .audio_record, .send_btn{
+                position: relative;
+                display: block;
+                transition: all 0.3s ease;
+            }
 
             .audio_record{
+                border-radius: calc(2.75rem/2);
+                width: 2.75rem;
+                height: 2.75rem;
+                overflow: hidden;
+                transition-delay: 0.1s;
+                &:before{
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: var(--nep-primary-bg-color);
+                    transition: all 0.3s ease;
+                    opacity: 0;
+                }
 
+                .recording_time{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: auto;
+                    height: 100%;
+                    padding: 0 1.25rem;
+                    display: flex;
+                    align-items: center;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: all 0.3s ease;
+                    span{
+                        position: relative;
+                        display: block;
+                        font-weight: 500;
+                        color: var(--nep-primary-color);
+                        
+                        &:first-child{
+                            &:after{
+                                content: ':';
+                                padding-inline: 3px;
+                            }
+                        }
+
+                    }
+                }
             }
+
+            .chat_btn{
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.75rem;
+                height: 2.75rem;
+                border-radius: 50%;
+                overflow: hidden;
+                border: none;
+                outline: none;
+                background-color: var(--nep-primary-color);
+                color: var(--nep-bg-color);
+                font-size: 1.15rem;
+                padding: 0;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover{
+                    background-color: var(--nep-text-color);
+                }
+
+                &.audio_{
+                    background-color: var(--nep-primary-bg-color);
+                    color: var(--nep-primary-color);
+
+                    &:hover{
+                        background-color: var(--nep-primary-border-color);
+                    }
+                }
+
+                &.audio_delete{
+                    color: var(--nep-red-color);
+                    background-color: #ffebe9;
+
+                    &:hover{
+                        background-color: #ffcbc6;
+                    }
+                }
+
+                &.audio_play{
+                    color: #449bff;
+                    background-color: #c7e1ff;
+
+                    &:hover{
+                        background-color: #abd2ff;
+                    }
+                }
+            }
+
+            .chat_audio_wave{
+                position: relative;
+                display: block;
+                width: 100%;
+                flex: 1;
+                height: 2rem;
+                
+                span{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-image: url('/audio-wave.svg');
+                    background-size: auto 65%;
+                    background-repeat: repeat-x;
+                    background-position: center;
+                    opacity: 0.25;
+                    
+                    &:last-child{
+                        opacity: 1;
+                        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+                    }
+                }
+
+                &.playing_{
+                    span{
+                        &:last-child{
+                            animation: audioClipAnim 2s linear forwards;
+                        }
+                    }
+                }
+            }
+
+            .chat_btn_group{
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                height: 100%;
+                padding-inline: 0.3rem;
+                gap: 0.75rem;
+
+                .chat_btn{
+                    width: 2.25rem;
+                    height: 2.25rem;
+                    font-size: 1rem;
+                }
+            }
+
+            .input_{
+                position: relative;
+                display: block;
+                flex: 1;
+                transition: all 0.3s ease;
+
+                input[type=text]{
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    height: 2.75rem;
+                    border-radius: calc(2.75rem/2);
+                    border: none;
+                    outline: none;
+                    background-color: var(--nep-bg-color);
+                    padding: 0 1rem;
+                    box-sizing: border-box;
+                    font-weight: 500;
+                }
+            }
+
+            &.recording_{
+                .audio_record{
+                    width: 7.5rem;
+                    transition-delay: 0s;
+
+                    .audio_{
+                        svg{
+                            animation: pulseAnim 0.5s linear infinite alternate;
+                        }
+                    }
+
+                    &:before{
+                        opacity: 1;
+                    }
+
+                    .recording_time{
+                        opacity: 1;
+                        transition-delay: 0.1s;
+                    }
+    
+                }
+
+                
+                .input_{
+                    opacity: 0.65;
+                    pointer-events: none;
+                }
+            }
+
+            &.recording_finished{
+                .audio_record{
+                    width: 40%;
+
+                    &:before{
+                        background-color: #ffd6c6;
+                        opacity: 1;
+                    }
+                }
+            }
+
         }
         
     }
@@ -1829,6 +2138,12 @@
     to{transform: scale(1);opacity: 0;}
 }
 
+@keyframes audioClipAnim {
+    to{
+        clip-path: polygon(0 0, 100% 0, 100% 99%, 0 100%);
+    }
+}
+
 @keyframes circleUploadAnim {
     0% {
         stroke-dashoffset: 0px;
@@ -1844,6 +2159,9 @@
     }
 }
 
+@keyframes pulseAnim {
+    to{opacity: 0;}
+}
 
 @keyframes uploadIconAnim {
     from{

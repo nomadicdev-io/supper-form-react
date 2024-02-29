@@ -14,7 +14,7 @@ const ActionBar = ({onStepClick, onBackClick, activeStep})=> {
                 </button>
             }
             <button type="button" className={`nep_btn ${ activeStep == 2  ? 'success_' : ''}`} onClick={onStepClick}>
-                <span>{activeStep == 2 ? 'Start Interview' : 'Next'}Next</span>
+                <span>{activeStep == 2 ? 'Start Interview' : 'Next'}</span>
                 <i><FiArrowRight /></i>
             </button>
 

@@ -42,6 +42,7 @@ function App() {
   const status = useAtomValue(statusIndicatorContext)
   const [context, setContext] = useAtom(applicationFormContext)
   const [isLoading, setIsLoading] = useState(true)
+  const getUserID = LS.getItem('userID') ? LS.getItem('userID') : '65e07dea68e86d51c954'
 
   const fetchingUserData = async ()=> {
     try{

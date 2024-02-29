@@ -248,6 +248,22 @@
             }
         }
 
+        &.info_{
+            color: var(--nep-text-color);
+
+            &:before{
+                background: var(--nep-border-color-100);
+               
+            }
+
+            &:hover{
+                color: var(--nep-text-color);
+            }
+        }
+
+
+        
+
         &:hover{
             color: var(--nep-white-color);
             &:before{
