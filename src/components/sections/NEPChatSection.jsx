@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import NEPInfoSection from "./NEPInfoSection"
-import { LuCamera } from "react-icons/lu";
-import { FiCameraOff } from "react-icons/fi";
-import { LuMic } from "react-icons/lu";
-import { LuMicOff } from "react-icons/lu";
+import { FaMicrophone } from "react-icons/fa";
+import { LuCamera, LuCameraOff, LuMic, LuMicOff } from "react-icons/lu";
 import { FaPlay, FaPause } from "react-icons/fa6";
 import { FaVolumeMute, FaVolumeDown } from "react-icons/fa";
 import { RiRefreshLine } from "react-icons/ri";
@@ -52,7 +50,7 @@ const AIVideo = ()=> {
     videoRef.current.currentTime = 0;
     setIsPause(true)
     setIsMute(false)
-    videoRef.current.muted = !videoRef.current.muted
+    videoRef.current.muted = false
     videoRef.current.play()
   }
 
@@ -61,46 +59,60 @@ const AIVideo = ()=> {
         videoRef.current.load()
         videoRef.current.play()
         setIsPause(true)
+
+        videoRef.current.onended = ()=> {
+            setIsPause(false)
+        };
     }, [])
 
     return (
-        <div className="nep_chat_aivideo">
-            <div className="ai_video">
-                <video poster="/ai-chat-poster.png" ref={videoRef}>
-                    <source src={'https://api-hcms-textract.s3.eu-west-2.amazonaws.com/open/bot/nep/interview/question1.mp4'} type="video/mp4"/>
-                </video>
+        <div className="ai_video">
+            <video poster="/ai-chat-poster.png" ref={videoRef}>
+                <source src={'https://api-hcms-textract.s3.eu-west-2.amazonaws.com/open/bot/nep/interview/question1.mp4'} type="video/mp4"/>
+            </video>
 
-                <div className="ai_user_controls">
-                    <div className="ai_user_video">
-                    
-                    </div>
-
-                    <div className="ai_user_record_message">
-                        <span></span>
-                        <p>Recording</p>
-                    </div>
+            <div className="ai_user_controls">
+                <div className="ai_user_video">
+                
                 </div>
 
-                <div className="ai_video_controls">
-                    <div className="wrapper_">
-                        <button type="button" onClick={playFn}>
-                            {
-                                isPause ? <FaPause /> : <FaPlay />
-                            }
-                        </button>
-                        <button type="button" onClick={muteFn}>
-                            {
-                                isMute ? <FaVolumeMute /> : <FaVolumeDown />
-                            }
-                        </button>
-                        <button type="button" onClick={restartFn}>
-                            <RiRefreshLine />
-                        </button>
-                        <button type="button" className={`end_`}>
-                            End
-                        </button>
-                    </div>
+                <div className="ai_user_record_message">
+                    <span></span>
+                    <p>Recording</p>
                 </div>
+            </div>
+
+            <div className="ai_video_controls">
+                <div className="wrapper_">
+                    <button type="button" onClick={playFn}>
+                        {
+                            isPause ? <FaPause /> : <FaPlay />
+                        }
+                    </button>
+                    <button type="button" onClick={muteFn}>
+                        {
+                            isMute ? <FaVolumeMute /> : <FaVolumeDown />
+                        }
+                    </button>
+                    <button type="button" onClick={restartFn}>
+                        <RiRefreshLine />
+                    </button>
+                    <button type="button" className={`end_`}>
+                        End
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+const ChatInput = ()=> {
+    return (
+        <div className="nep_chat_input">
+            <div className="audio_record">
+                <button>
+                    <FaMicrophone />
+                </button>
             </div>
         </div>
     )
@@ -109,7 +121,13 @@ const AIVideo = ()=> {
 const ChatBox = ()=> {
     return (
         <div className="nep_chat_chatbox">
-        
+            <div className="profile_info">
+
+                <div className="pic_">
+                    <img src="/ai-chat-poster.png" />
+                </div>
+                
+            </div>
         </div>
     )
 }
@@ -117,8 +135,13 @@ const ChatBox = ()=> {
 const ChatArea = ()=> {
     return (
         <div className="nep_chat_area">
-            <AIVideo />
+
+            <div className="nep_chat_aivideo">
+                <AIVideo />
+                <ChatInput />
+            </div>
             <ChatBox />
+
         </div>
     )
 }

@@ -496,9 +496,9 @@
             max-width: 90%;
             margin-inline: auto;
             min-height: calc(100vh - 3.5rem);
-            @media only screen and (min-width: 1440px){
-                min-width: 1260px;
-                max-width: 1260px;
+            @media only screen and (min-width: 1600px){
+                min-width: 1400px;
+                max-width: 1400px;
             }
         }
 
@@ -1497,7 +1497,9 @@
 
         &_aivideo{
             position: relative;
-            display: block;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             width: 100%;
 
 
@@ -1601,7 +1603,7 @@
                 left: 0;
                 width: 100%;
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 justify-content: space-between;
                 padding: 1.5rem;
                 z-index: 4;
@@ -1652,6 +1654,18 @@
                     color: #ffffffc9;
                 }
             }
+
+            &_video{
+                position: relative;
+                display: block;
+                width: 10rem;
+                height: auto;
+                aspect-ratio: 16/10;
+                background-color: var(--nep-dashboard-bg-color);
+                border-radius: 0.75rem;
+                overflow: hidden;
+                box-shadow: 0px 0px 17px 1px rgba(33, 33, 33, 0.075);
+            }
         }
 
         &_chatbox{
@@ -1662,6 +1676,49 @@
             overflow: hidden;
             background-color: var(--nep-dashboard-bg-color);
             border: 1px solid var(--nep-border-color-100);
+
+            .profile_info{
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                background-color: var(--nep-bg-color);
+                padding: 1rem;
+                box-shadow: 0px 0px 10px 1px #2121210d;
+
+                .pic_{
+                    position: relative;
+                    display: block;
+                    width: 3.25rem;
+                    height: 3.25rem;
+                    border-radius: 0.75rem;
+                    background-color: var(--nep-dashboard-bg-color);
+                    overflow: hidden;
+                    border: 2px solid var(--nep-primary-border-color);
+
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+                }
+            }
+        }
+
+        &_input{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            width: 100%;
+            background-color: var(--nep-dashboard-bg-color);
+
+            .audio_record{
+
+            }
         }
         
     }
