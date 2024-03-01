@@ -1679,6 +1679,7 @@
             overflow: hidden;
             background-color: var(--nep-dashboard-bg-color);
             border: 1px solid var(--nep-border-color-100);
+            height: var(--chat-area-height);
 
             .profile_info{
                 position: relative;
@@ -1688,6 +1689,7 @@
                 gap: 1rem;
                 background-color: var(--nep-bg-color);
                 padding: 1rem;
+                height: 5.25rem;
                 box-shadow: 0px 0px 10px 1px #2121210d;
 
                 .pic_{
@@ -1746,13 +1748,27 @@
 
             .chat_box{
                 position: relative;
-                display: flex;
+                display: grid;
+                place-items: end;
+                align-items: flex-end;
                 width: 100%;
                 flex: 1;
-                padding: 0 1rem 1rem;
-                flex-direction: column;
-                justify-content: flex-end;
-                gap: 1rem;
+                height: calc(var(--chat-area-height) - 5.25rem);
+                overflow-x: hidden;
+                overflow-y: scroll;
+                -ms-overflow-style: none; 
+                scrollbar-width: none;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                &_inner{
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    padding: 0 1rem 1rem;
+                }
             }
 
             .chat_item{
@@ -1761,6 +1777,8 @@
                 align-items: flex-start;
                 justify-content: flex-start;
                 flex-direction: column;
+                transform-origin: bottom;
+                width: 100%;
 
                 .message_{
                     position: relative;
@@ -1804,7 +1822,7 @@
                 }
 
                 
-                &.user_{
+                &.user{
                     justify-content: flex-start;
                     align-items: flex-end;
                     text-align: end;
@@ -1831,6 +1849,10 @@
             height: 3.75rem;
             padding: 0.5rem;
             border-radius: calc(3.75rem/2);
+
+            &>audio{
+                display: none;
+            }
 
 
             .audio_record, .send_btn{
@@ -2170,12 +2192,6 @@
 
 @keyframes micPulse {
     to{transform: scale(1);opacity: 0;}
-}
-
-@keyframes audioClipAnim {
-    to{
-        clip-path: polygon(0 0, 100% 0, 100% 99%, 0 100%);
-    }
 }
 
 @keyframes circleUploadAnim {

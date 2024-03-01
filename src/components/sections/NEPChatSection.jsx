@@ -12,9 +12,16 @@ import { FiMoreVertical } from "react-icons/fi";
 import { LuRefreshCcw } from "react-icons/lu";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import ChatMessage, { ChatMessageLoader } from "../chats/ChatMessage";
+import getQuestions, { getTime } from "../../store/questions";
+import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 
-let audioRecorder;
-let recoredAudio;
+let audioRecorder
+let recoredAudio
+let chatIndex = 0
+
+const questionsContext = atom(null)
+const messageLoaderContext = atom(false)
+const videoURLContext = atom(null)
 
 const ChatPermision = ({errorHandler, onPermissionCheck})=> {
     return (
@@ -98,6 +105,8 @@ const AIVideo = ()=> {
     const [isPause, setIsPause] = useState(false)
     const videoRef = useRef(null)
 
+    const videoURL = useAtomValue(videoURLContext)
+
     
     const playFn = ()=> {
         isPause ? videoRef.current.pause() : videoRef.current.play()
@@ -117,21 +126,34 @@ const AIVideo = ()=> {
         videoRef.current.play()
     }
 
-    useEffect(()=> {
-        videoRef.current.currentTime = 0;
-        videoRef.current.load()
-        videoRef.current.play()
-        setIsPause(true)
+    const initVideo = async ()=> {
+        try{
+            await videoRef.current.load()
+            videoRef.current.currentTime = 0;
 
-        videoRef.current.onended = ()=> {
-            setIsPause(false)
-        };
-    }, [])
+            setTimeout(()=> {
+                videoRef.current.play()
+                setIsPause(true)
+            }, 700)
+
+            videoRef.current.onended = ()=> {
+                setIsPause(false)
+            };
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    useEffect(()=> {
+        if(videoURL){
+            initVideo()
+        }
+    },  [videoURL])
 
     return (
         <div className="ai_video">
             <video poster="/ai-chat-poster.png" ref={videoRef}>
-                <source src={'https://api-hcms-textract.s3.eu-west-2.amazonaws.com/open/bot/nep/interview/question1.mp4'} type="video/mp4"/>
+                <source src={videoURL} type="video/mp4"/>
             </video>
 
             <div className="ai_user_controls">
@@ -176,9 +198,21 @@ const ChatInput = ({audioStream})=> {
     const [isAudioPlaying, setIsAudioPlaying] = useState(false)
     const [audioFile, setAudioFile] = useState({})
     const [time, setTime] = useState(0);
+    const [isDisabled, setIsDisabled] = useState(false)
+    const [inputText, setInputText] = useState('')
+
     const inputRef = useRef(null)
     const audioRef = useRef(null)
+    const messageSoundRef = useRef(null)
+    const messageLoadingRef = useRef(null)
+    const messageSentgRef = useRef(null)
+
     const waveAnimControls = useAnimationControls()
+
+    const [questionsArray, setQuestionsArray] = useAtom(questionsContext)
+    const setMessageLoader = useSetAtom(messageLoaderContext)
+    const setVideoURL = useSetAtom(videoURLContext)
+    
 
     const seconds = Math.floor((time % 6000) / 100);
     const minutes = Math.floor((time % 360000) / 6000);
@@ -186,8 +220,6 @@ const ChatInput = ({audioStream})=> {
     const generateAudio = ()=> {
         const blob = new Blob(recoredAudio, {type: 'audio/wav'});
         const url = window.URL.createObjectURL(blob);
-
-        console.log(blob)
 
         setAudioFile({
             url: url
@@ -226,19 +258,102 @@ const ChatInput = ({audioStream})=> {
         setIsAudioPlaying(!isAudioPlaying)
 
         audioRef.current.load()
-        audioRef.current.play()
-        
-        console.log(audioRef.current.duration)
 
+        // audioRef.current.play()
+        
+        // audioRef.current.addEventListener('durationchanged', (event)=> {
+        //     console.log(event)
+        // })
         //     waveAnimControls.start({
         //         clipPath: 'polygon(0 0, 100% 0, 100% 99%, 0 100%)',
         //         transition: { duration: event.target.duration },
         //     })
     }
 
-    const sendMessageFn = ()=> {
-        setIsVoiceRecordingFinished(false)
+    const getAIQuestion = async (index)=> {
+        try{    
+
+            setIsDisabled(true)
+
+            setMessageLoader(true)
+
+            messageLoadingRef?.current.play()
+
+            const res = await getQuestions(index);
+            
+            if(res){
+
+                const data = {
+                    type: 'ai',
+                    text: res.data.text,
+                    time: getTime(new Date())
+                }
+
+                setTimeout(()=> {
+
+                    if(questionsArray){
+                        setQuestionsArray([
+                            ...questionsArray,
+                            data
+                        ])
+                    }else{
+                        setQuestionsArray([data])
+                    }
+
+                    
+                    setVideoURL(res.data.url)
+                    setMessageLoader(false)
+                    setIsDisabled(false)
+
+                    chatIndex++
+                    messageLoadingRef?.current.pause()
+                    messageSoundRef?.current.play()
+
+                    messageLoadingRef.current.currentTime = 0
+
+                }, 2500)
+            }
+
+        }catch(error){
+            console.log(error)
+        }
     }
+
+    const sendMessageFn = ()=> {
+
+        if(inputText.length > 0 || audioFile.url){
+
+            setIsDisabled(true)
+            setIsVoiceRecordingFinished(false)
+
+            const data = {
+                type: 'user',
+                text: inputText,
+                time: getTime(new Date())
+            }
+
+            setQuestionsArray([
+                ...questionsArray,
+                data
+            ])
+
+            setInputText('')
+            setAudioFile({...audioFile, url: null})
+
+            messageSentgRef?.current.play()
+
+            setTimeout(()=> {
+                getAIQuestion(chatIndex)
+            }, 1000)
+
+            console.log('Message Sent!')
+        }else{
+            console.log('No messages to send !')
+        }
+
+    }
+
+
 
     useEffect(()=> {
 
@@ -254,8 +369,25 @@ const ChatInput = ({audioStream})=> {
 
     }, [isVoiceRecording, time])
 
+    useEffect(()=> {
+        getAIQuestion(chatIndex);
+    }, [])
+
     return (
         <div className={`nep_chat_input ${isVoiceRecording ? 'recording_' : ''} ${isVoiceRecodingFinished ? 'recording_finished' : ''}`}>
+
+        <audio ref={messageSoundRef}>
+            <source src="/message-sent-sound.wav" />
+        </audio>
+
+        <audio ref={messageLoadingRef} loop>
+            <source src="/message-typing.wav" />
+        </audio>
+
+        <audio ref={messageSentgRef}>
+            <source src="/message-sound.wav" />
+        </audio>
+
             <div className="audio_record">
 
                 {
@@ -287,11 +419,11 @@ const ChatInput = ({audioStream})=> {
                     <>
                         {
                             isVoiceRecording ?
-                            <button className="chat_btn audio_" onClick={stopRecordingFn}>
+                            <button className="chat_btn audio_" onClick={stopRecordingFn} disabled={isDisabled}>
                                 <FaMicrophone />
                             </button>
                             :
-                            <button className="chat_btn audio_" onClick={startRecordingFn}>
+                            <button className="chat_btn audio_" onClick={startRecordingFn} disabled={isDisabled}>
                                 <FaMicrophone />
                             </button>
                         }
@@ -306,11 +438,18 @@ const ChatInput = ({audioStream})=> {
             </div>
 
             <div className="input_">
-                <input type="text" placeholder="Type or Record..." disabled={isVoiceRecording} ref={inputRef}/>
+                <input 
+                    type="text" 
+                    placeholder="Type or Record..." 
+                    disabled={isVoiceRecording || isDisabled}
+                    ref={inputRef}
+                    value={inputText}
+                    onChange={(e)=> setInputText(e.target.value)}
+                />
             </div>
 
             <div className="send_btn">
-                <button className="chat_btn" onClick={sendMessageFn}>
+                <button className="chat_btn" onClick={sendMessageFn} disabled={isDisabled}>
                     <BsFillSendFill />
                 </button>
             </div>
@@ -318,12 +457,19 @@ const ChatInput = ({audioStream})=> {
     )
 }
 
-const ChatBox = ()=> {
+const ChatBox = ({height})=> {
 
-    const [messageLoader, setMessageLoader] = useState(false)
+    const questionsArray = useAtomValue(questionsContext)
+    const messageLoader = useAtomValue(messageLoaderContext)
+    const chatBoxRef = useRef(null)
+
+    useEffect(()=> {
+        chatBoxRef?.current.scrollTo(0, height)
+    }, [questionsArray])
 
     return (
-        <div className="nep_chat_chatbox">
+        <div className="nep_chat_chatbox" style={{'--chat-area-height': height + 'px'}}>
+
 
             <div className="profile_info">
 
@@ -343,18 +489,29 @@ const ChatBox = ()=> {
                 
             </div>
 
-            <div className="chat_box">
+            <div className="chat_box" ref={chatBoxRef}>
 
-                <ChatMessage 
-                    userType={'ai_'}
-                    message={'Please describe the transformative project you worked on, its impact and your exact role.'}
-                    time={'Tue, 9:39am'}
-                />
+               <div className="chat_box_inner">
+                    <AnimatePresence>
+                {
+                    questionsArray &&
+                    questionsArray.map((item, index)=> (
+                        <ChatMessage 
+                            userType={item.type}
+                            message={item.text}
+                            time={item.time}
+                            key={`user_message_${index}`}
+                        />
+                    ))
+
+                    
+                }
                 {
                     messageLoader &&
                     <ChatMessageLoader />
                 }
-                
+                    </AnimatePresence>
+               </div>
 
             </div>
 
@@ -363,15 +520,23 @@ const ChatBox = ()=> {
 }
 
 const ChatArea = ({audioStream})=> {
+
+    const chatVideoRef = useRef(null)
+    const [wrapperHeight, setWrapperHeight] = useState(0)
+
+    useEffect(()=> {
+        setWrapperHeight(chatVideoRef.current.offsetHeight)
+    }, [])
+
     return (
        <>
         <div className="nep_chat_area">
             
-            <div className="nep_chat_aivideo">
+            <div className="nep_chat_aivideo" ref={chatVideoRef}>
                 <AIVideo />
                 <ChatInput audioStream={audioStream}/>
             </div>
-            <ChatBox />
+            <ChatBox height={wrapperHeight}/>
 
         </div>
        </>
