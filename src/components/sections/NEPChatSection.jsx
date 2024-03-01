@@ -9,26 +9,84 @@ import { BsFillSendFill } from "react-icons/bs";
 import NEPApplicationSteps from "../NEPApplicationSteps";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FiMoreVertical } from "react-icons/fi";
+import { LuRefreshCcw } from "react-icons/lu";
+import { AnimatePresence, motion } from "framer-motion";
 
-const ChatPermision = ()=> {
+let audioRecorder;
+let recoredAudio;
+
+const ChatPermision = ({errorHandler, onPermissionCheck})=> {
     return (
         <NEPInfoSection>
 
-            <div className="info_icon_group">
-                <div className="info_button">
-                    <LuCamera />
-                </div>
-                <div className="info_button">
-                    <LuMic />
-                </div>
-            </div>
+            
 
-            <h3> <span>Microphone</span> and <span>Camera</span> Permission Required !</h3>
-            <p>To start the interview please grant permission to use your microphone and webcam. Click '<strong>Allow</strong>' when prompted to enable seamless communication during your interview. Thank you for your cooperation!</p>
+            {
+                errorHandler.status ?
+                <>
+                <div className="info_icon_group">
+                    <div className="info_button">
+                        <LuCameraOff />
+                    </div>
+                    <div className="info_button">
+                        <LuMicOff />
+                    </div>
+                </div>
+                <h3> <span>{errorHandler.title[0]}</span> {errorHandler.title[1]}</h3>
+                <p>{errorHandler.message}</p>
 
-            <div className="alert_message">
-                <p>Please be informed that this online interview will be recorded for evaluation purposes. Your <strong>video</strong> and <strong>voice</strong> will be captured to ensure a fair assessment. Thank you for your understanding.</p>
-            </div>
+                    {
+                        errorHandler.statusCode == 'permissionDenied' &&
+                        <div className="nep_btn_group center_">
+                            <button type="button" className="nep_btn" onClick={onPermissionCheck}>
+                                <span>Try Again</span>
+                                <i><LuRefreshCcw /></i> 
+                            </button>
+                        </div>
+                    }
+
+                </>
+                :
+                <>
+                    <div className="info_icon_group">
+                        <div className="info_button">
+                            <LuCamera />
+                        </div>
+                        <div className="info_button">
+                            <LuMic />
+                        </div>
+                    </div>
+
+                    <h3> <span>Microphone</span> and <span>Camera</span> Permission Required !</h3>
+                    <p>To start the interview please grant permission to use your microphone and webcam. Click '<strong>Allow</strong>' when prompted to enable seamless communication during your interview. Thank you for your cooperation!</p>
+
+                    <div className="alert_message">
+                        <p>Please be informed that this online interview will be recorded for evaluation purposes. Your <strong>video</strong> and <strong>voice</strong> will be captured to ensure a fair assessment. Thank you for your understanding.</p>
+                    </div>
+
+                    <div className="nep_btn_group center_">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            width="40px" height="40px" viewBox="0 0 40 40" enableBackground="new 0 0 40 40" xmlSpace="preserve">
+                            <path opacity="0.2" fill="#fe6723" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+                                s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+                                c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
+                            <path fill="#fe6723" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+                                C22.32,8.481,24.301,9.057,26.013,10.047z">
+                                <animateTransform attributeType="xml"
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 20 20"
+                                to="360 20 20"
+                                dur="0.5s"
+                                repeatCount="indefinite"/>
+                            </path>
+                        </svg>
+                    </div>
+                </>
+            }
+
+            
+
         </NEPInfoSection>
     )
 }
@@ -110,24 +168,51 @@ const AIVideo = ()=> {
     )
 }
 
-const ChatInput = ()=> {
+const ChatInput = ({audioStream})=> {
 
     const [isVoiceRecording, setIsVoiceRecording] = useState(false);
     const [isVoiceRecodingFinished, setIsVoiceRecordingFinished] = useState(false)
     const [isAudioPlaying, setIsAudioPlaying] = useState(false)
+    const [audioFile, setAudioFile] = useState({})
     const [time, setTime] = useState(0);
     const inputRef = useRef(null)
+    const audioRef = useRef(null)
 
     const seconds = Math.floor((time % 6000) / 100);
     const minutes = Math.floor((time % 360000) / 6000);
 
-    const recordAudioFn = ()=> {
-        setIsVoiceRecording(!isVoiceRecording)
+    const generateAudio = ()=> {
+        const blob = new Blob(recoredAudio, {type: 'audio/wav'});
+        const url = window.URL.createObjectURL(blob);
+        
+        console.log(blob)
+        setAudioFile({
+            url: url
+        })
+    }
 
-        if(isVoiceRecording){
-            setIsVoiceRecording(false)
-            setIsVoiceRecordingFinished(true)
+    const startRecordingFn = ()=> {
+        setIsVoiceRecording(true)
+        recoredAudio = []
+        audioRecorder = new MediaRecorder(audioStream); 
+
+        audioRecorder.ondataavailable = (event)=> {
+            if (event.data && event.data.size > 0) {
+                recoredAudio.push(event.data);
+            }   
         }
+        audioRecorder.start();
+
+        audioRecorder.onstop = (event)=> {
+            console.log('Stop')
+            generateAudio()
+        }
+    }
+
+    const stopRecordingFn = ()=> {
+        setIsVoiceRecording(false)
+        setIsVoiceRecordingFinished(true)
+        audioRecorder.stop();
     }
 
     const deleteAudioFn = ()=> {
@@ -137,7 +222,10 @@ const ChatInput = ()=> {
 
     const playAudioFn = ()=> {
         setIsAudioPlaying(!isAudioPlaying)
-        console.log('Audio playing')
+
+        audioRef.current.load()
+        audioRef.current.play()
+        
     }
 
     const sendMessageFn = ()=> {
@@ -170,6 +258,9 @@ const ChatInput = ()=> {
                             </button>
 
                             <div className={`chat_audio_wave ${isAudioPlaying ? 'playing_' : ''}`}>
+
+                                <audio ref={audioRef}><source src={audioFile.url} /></audio>
+
                                 <span></span>
                                 <span></span>
                             </div>
@@ -182,9 +273,18 @@ const ChatInput = ()=> {
                         </div>
                     :
 
-                    <button className="chat_btn audio_" onClick={recordAudioFn}>
-                        <FaMicrophone />
-                    </button>
+                    <>
+                        {
+                            isVoiceRecording ?
+                            <button className="chat_btn audio_" onClick={stopRecordingFn}>
+                                <FaMicrophone />
+                            </button>
+                            :
+                            <button className="chat_btn audio_" onClick={startRecordingFn}>
+                                <FaMicrophone />
+                            </button>
+                        }
+                    </>
                 }
                 
 
@@ -208,6 +308,9 @@ const ChatInput = ()=> {
 }
 
 const ChatBox = ()=> {
+
+    const [messageLoader, setMessageLoader] = useState(false)
+
     return (
         <div className="nep_chat_chatbox">
 
@@ -248,20 +351,34 @@ const ChatBox = ()=> {
 
                 </div>
 
+                {
+                    messageLoader &&
+                    <div className="chat_item">
+                        <div className="message_">
+                            <div className="message_loader">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+
             </div>
 
         </div>
     )
 }
 
-const ChatArea = ()=> {
+const ChatArea = ({audioStream})=> {
     return (
        <>
         <div className="nep_chat_area">
             
             <div className="nep_chat_aivideo">
                 <AIVideo />
-                <ChatInput />
+                <ChatInput audioStream={audioStream}/>
             </div>
             <ChatBox />
 
@@ -270,14 +387,96 @@ const ChatArea = ()=> {
     )
 }
 
+const ChatWrapper = ({audioStream})=> {
+    return(
+        <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 1.025 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+        >
+            <div className="nep_chat_title">
+                <h3><span>NEP 4.0</span> AI Interview</h3>
+            </div>
+            <NEPApplicationSteps />
+            <ChatArea audioStream={audioStream}/>
+        </motion.div>
+    )
+}
+
 const NEPChatSection = () => {
+
+    const [isPermissionGranted, setIsPermissionGranted] = useState(false)
+    const [audioStream, setAudioStream] = useState(null)
+    const [permissionError, setPermissionError] = useState({
+        status: false,
+        title: 'Access Declined:',
+        message: ''
+    })
+    const usermediaPrefix = !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia)
+
+
+    const getPermission = ()=> {
+        if(usermediaPrefix){
+
+            const constraints = {
+                audio: true,
+                video: false
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream)=> {
+                setAudioStream(stream)
+                setTimeout(()=> setIsPermissionGranted(true), 1000)
+
+                stream.onremovetrack = ()=> {
+                    console.log('Removed')
+                }
+
+            }).catch((error)=> {
+
+                if(error.message == 'Requested device not found'){
+
+                    setPermissionError({
+                        status: true,
+                        statusCode: 'deviceNoFound',
+                        title: ['Access Declined:', 'Requested device not found'],
+                        message: 'Apologies, but it seems the requested device is not found. Please check your connections or ensure the device is properly connected and try again. Thank you for your patience.'
+                    })
+
+                }else if(error.message == 'Permission denied'){
+
+                    setPermissionError({
+                        status: true,
+                        statusCode: 'permissionDenied',
+                        title: ['Permission Denied:', 'Permission has been denied'],
+                        message: "Unfortunately, permission has been denied for the requested action. Kindly review and adjust your settings to enable the microphone and camera permissions. Select 'Always Allow' to use your microphone and camera. Thank you for your cooperation and understanding."
+                    })
+
+                }
+
+            })
+
+        }else{
+            alert('getUserMedia() is not supported in your browser')
+        }
+    }
+
+    useEffect(()=> {
+        getPermission();
+    }, [])
+
+
   return (
     <div className="nep_chat">
-        <div className="nep_chat_title">
-            <h3><span>NEP 4.0</span> AI Interview</h3>
-        </div>
-        <NEPApplicationSteps />
-        <ChatArea />
+       <AnimatePresence>
+            {
+                isPermissionGranted ?
+                <ChatWrapper audioStream={audioStream} />
+                :
+                <ChatPermision errorHandler={permissionError} onPermissionCheck={()=> getPermission()}/>
+            }
+       </AnimatePresence> 
     </div>
   )
 }

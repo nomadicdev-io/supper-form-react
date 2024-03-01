@@ -417,8 +417,8 @@
     height: 7.5rem;
     border-radius: 50%;
     font-size: 3rem;
-    background-color: var(--nep-bg-color);
-    box-shadow: 0px 0px 40px 5px #fe672324;
+    background-color: var(--nep-primary-bg-color);
+    box-shadow: 0px 0px 0px 1px var(--nep-primary-border-color);
     color: var(--nep-primary-color);
 }
 
