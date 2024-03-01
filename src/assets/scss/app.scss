@@ -1972,16 +1972,15 @@
                     
                     &:last-child{
                         opacity: 1;
-                        clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
                     }
                 }
 
                 &.playing_{
-                    span{
-                        &:last-child{
-                            animation: audioClipAnim 2s linear forwards;
-                        }
-                    }
+                    // span{
+                    //     &:last-child{
+                    //         animation: audioClipAnim 2s linear forwards;
+                    //     }
+                    // }
                 }
             }
 

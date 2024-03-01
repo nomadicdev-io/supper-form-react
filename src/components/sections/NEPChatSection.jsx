@@ -10,7 +10,8 @@ import NEPApplicationSteps from "../NEPApplicationSteps";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FiMoreVertical } from "react-icons/fi";
 import { LuRefreshCcw } from "react-icons/lu";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
+import ChatMessage, { ChatMessageLoader } from "../chats/ChatMessage";
 
 let audioRecorder;
 let recoredAudio;
@@ -177,6 +178,7 @@ const ChatInput = ({audioStream})=> {
     const [time, setTime] = useState(0);
     const inputRef = useRef(null)
     const audioRef = useRef(null)
+    const waveAnimControls = useAnimationControls()
 
     const seconds = Math.floor((time % 6000) / 100);
     const minutes = Math.floor((time % 360000) / 6000);
@@ -184,8 +186,9 @@ const ChatInput = ({audioStream})=> {
     const generateAudio = ()=> {
         const blob = new Blob(recoredAudio, {type: 'audio/wav'});
         const url = window.URL.createObjectURL(blob);
-        
+
         console.log(blob)
+
         setAudioFile({
             url: url
         })
@@ -204,7 +207,6 @@ const ChatInput = ({audioStream})=> {
         audioRecorder.start();
 
         audioRecorder.onstop = (event)=> {
-            console.log('Stop')
             generateAudio()
         }
     }
@@ -226,6 +228,12 @@ const ChatInput = ({audioStream})=> {
         audioRef.current.load()
         audioRef.current.play()
         
+        console.log(audioRef.current.duration)
+
+        //     waveAnimControls.start({
+        //         clipPath: 'polygon(0 0, 100% 0, 100% 99%, 0 100%)',
+        //         transition: { duration: event.target.duration },
+        //     })
     }
 
     const sendMessageFn = ()=> {
@@ -259,10 +267,13 @@ const ChatInput = ({audioStream})=> {
 
                             <div className={`chat_audio_wave ${isAudioPlaying ? 'playing_' : ''}`}>
 
-                                <audio ref={audioRef}><source src={audioFile.url} /></audio>
+                                <audio ref={audioRef} preload="auto"><source src={audioFile.url} /></audio>
 
                                 <span></span>
-                                <span></span>
+                                <motion.span
+                                animate={waveAnimControls}
+                                initial={{ clipPath: 'polygon(0 0, 0 0, 0 100%, 0% 100%)' }}
+                                ></motion.span>
                             </div>
 
                             <button className="chat_btn audio_" onClick={playAudioFn}>
@@ -333,35 +344,15 @@ const ChatBox = ()=> {
             </div>
 
             <div className="chat_box">
-                <div className="chat_item">
 
-                    <div className="message_">
-                        Please describe the transformative project you worked on, its impact and your exact role.
-                    </div>
-                    <div className="time_">Tue, 9:39am</div>
-
-                </div>
-
-                <div className="chat_item user_">
-
-                    <div className="message_">
-                        Please describe the transformative project you worked on, its impact and your exact role.
-                    </div>
-                    <div className="time_">Tue, 9:39am</div>
-
-                </div>
-
+                <ChatMessage 
+                    userType={'ai_'}
+                    message={'Please describe the transformative project you worked on, its impact and your exact role.'}
+                    time={'Tue, 9:39am'}
+                />
                 {
                     messageLoader &&
-                    <div className="chat_item">
-                        <div className="message_">
-                            <div className="message_loader">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
+                    <ChatMessageLoader />
                 }
                 
 
